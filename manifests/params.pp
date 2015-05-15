@@ -1,4 +1,8 @@
 class cassandra::params {
+    $using_dse = $::using_dse ? {
+        undef   => false,
+        default => $::using_dse,
+    }
     $include_repo = $::cassandra_include_repo ? {
         undef   => true,
         default => $::cassandra_include_repo
@@ -63,33 +67,61 @@ class cassandra::params {
     case $::osfamily {
         'Debian': {
             $package_name = $::cassandra_package_name ? {
-                undef   => 'dsc21',
+                undef   => $::using_dse ? {
+                  true    => 'dse-full',
+                  default => 'dsc21',
+                },
                 default => $::cassandra_package_name,
             }
 
             $service_name = $::cassandra_service_name ? {
-                undef   => 'cassandra',
+                undef   => $::using_dse ? {
+                  true    => 'dse',
+                  default => 'cassandra',
+                },
                 default => $::cassandra_service_name,
             }
 
+            $dse_config_path = $::dse_cassandra_config_path ? {
+                undef   => '/etc/dse',
+                default => $::dse_cassandra_config_path,
+            }
+
             $config_path = $::cassandra_config_path ? {
-                undef   => '/etc/cassandra',
+                undef   => $::using_dse ? {
+                  true    => "$dse_config_path/cassandra",
+                  default => '/etc/cassandra',
+                },
                 default => $::cassandra_config_path,
             }
         }
         'RedHat': {
             $package_name = $::cassandra_package_name ? {
-                undef   => 'dsc21',
+                undef   => $::using_dse ? {
+                  true    => 'dse-full',
+                  default => 'dsc21',
+                },
                 default => $::cassandra_package_name,
             }
 
             $service_name = $::cassandra_service_name ? {
-                undef   => 'cassandra',
+                undef   => $::using_dse ? {
+                  true    => 'dse',
+                  default => 'cassandra',
+                },
                 default => $::cassandra_service_name,
             }
 
+            $dse_config_path = $::dse_cassandra_config_path ? {
+                undef   => '/etc/dse',
+                default => $::dse_cassandra_config_path,
+            }
+
             $config_path = $::cassandra_config_path ? {
-                undef   => '/etc/cassandra/conf',
+                undef   => $::using_dse ? {
+                  true    => "$dse_config_path/cassandra",
+                  default => '/etc/cassandra',
+                },
                 default => $::cassandra_config_path,
             }
         }

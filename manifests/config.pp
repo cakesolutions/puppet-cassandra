@@ -50,6 +50,8 @@ class cassandra::config(
     $client_encryption_truststore,
     $client_encryption_truststore_password,
     $client_encryption_cipher_suites,
+    $using_dse,
+    $dse_config_path,
 ) {
     group { 'cassandra':
         ensure  => present,
@@ -79,6 +81,13 @@ class cassandra::config(
     file { "${config_path}/cassandra.yaml":
         ensure  => file,
         content => template("${module_name}/cassandra${version}.yaml.erb"),
+    }
+
+    if($using_dse) {
+      file { "${dse_config_path}/dse.yaml":
+          ensure  => file,
+          content => template("${module_name}/dse.yaml.erb"),
+      }
     }
 
 }
