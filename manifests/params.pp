@@ -1,4 +1,8 @@
 class cassandra::params {
+    $using_dse = $::cassandra_using_dse ? {
+        undef   => false,
+        default => $::cassandra_using_dse,
+    }
     $include_repo = $::cassandra_include_repo ? {
         undef   => true,
         default => $::cassandra_include_repo
@@ -72,6 +76,11 @@ class cassandra::params {
                 default => $::cassandra_service_name,
             }
 
+            $dse_config_path = $::dse_cassandra_config_path ? {
+                undef   => '/etc/dse',
+                default => $::dse_cassandra_config_path,
+            }
+
             $config_path = $::cassandra_config_path ? {
                 undef   => '/etc/cassandra',
                 default => $::cassandra_config_path,
@@ -86,6 +95,11 @@ class cassandra::params {
             $service_name = $::cassandra_service_name ? {
                 undef   => 'cassandra',
                 default => $::cassandra_service_name,
+            }
+
+            $dse_config_path = $::dse_cassandra_config_path ? {
+                undef   => '/etc/dse',
+                default => $::dse_cassandra_config_path,
             }
 
             $config_path = $::cassandra_config_path ? {
