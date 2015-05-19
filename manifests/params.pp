@@ -222,9 +222,9 @@ class cassandra::params {
                 default => $::cassandra_java_package,
             }
 
-            $dse_config_path = $::dse_cassandra_config_path ? {
+            $dse_config_path = $::cassandra_dse_config_path ? {
                 undef   => '/etc/dse',
-                default => $::dse_cassandra_config_path,
+                default => $::cassandra_dse_config_path,
             }
 
             $config_path = $::cassandra_config_path ? {
