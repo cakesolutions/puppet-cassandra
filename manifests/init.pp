@@ -13,6 +13,7 @@ class cassandra(
     $repo_pin                               = $cassandra::params::repo_pin,
     $repo_gpgcheck                          = $cassandra::params::repo_gpgcheck,
     $repo_enabled                           = $cassandra::params::repo_enabled,
+    $java_package                           = $cassandra::params::java_package,
     $max_heap_size                          = $cassandra::params::max_heap_size,
     $heap_newsize                           = $cassandra::params::heap_newsize,
     $jmx_port                               = $cassandra::params::jmx_port,
@@ -45,6 +46,7 @@ class cassandra(
     $auto_snapshot                          = $cassandra::params::auto_snapshot,
     $multithreaded_compaction               = $cassandra::params::multithreaded_compaction,
     $endpoint_snitch                        = $cassandra::params::endpoint_snitch,
+    $internode_compression                  = $cassandra::params::internode_compression,
     $internode_compression                  = $cassandra::params::internode_compression,
     $disk_failure_policy                    = $cassandra::params::disk_failure_policy,
     $thread_stack_size                      = $cassandra::params::thread_stack_size,
@@ -181,7 +183,7 @@ class cassandra(
         Class['cassandra::repo'] -> Class['cassandra::install']
     }
 
-    include cassandra::install
+    class { 'cassandra::install': java_package => $java_package }
 
     $version_config = $cassandra::version ? {
       default   =>  regsubst($cassandra::version, '^(\d\.\d+).*$', '\1'),
@@ -207,7 +209,6 @@ class cassandra(
         rpc_server_type                       => $rpc_server_type,
         rpc_min_threads                       => $rpc_min_threads,
         rpc_max_threads                       => $rpc_max_threads,
-        native_transport_port                 => $native_transport_port,
         storage_port                          => $storage_port,
         partitioner                           => $partitioner,
         data_file_directories                 => $data_file_directories,
