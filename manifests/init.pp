@@ -261,7 +261,7 @@ class cassandra(
         Class['cassandra::repo'] -> Class['cassandra::install']
     }
 
-    include cassandra::install
+    class { 'cassandra::install': java_package => $java_package }
 
     $version_config = $cassandra::version ? {
       default   =>  regsubst($cassandra::version, '^(\d\.\d+).*$', '\1'),

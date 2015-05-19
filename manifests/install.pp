@@ -1,9 +1,9 @@
-class cassandra::install {
+class cassandra::install( $java_package ) {
 
     if !defined (Package['java']) {
       package { 'java':
         ensure  => installed,
-        name    => 'openjdk-7-jre'
+        name    => "$java_package"
       }
     }
 
