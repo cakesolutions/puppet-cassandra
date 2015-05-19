@@ -134,7 +134,7 @@ class cassandra::params {
     }
 
     $opscenter_version = $::cassandra_opscenter_version ? {
-        undef   => '5.1.2',
+        undef   => '5.1.2-1',
         default => $::cassandra_opscenter_version,
     }
 
