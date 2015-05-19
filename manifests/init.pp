@@ -67,6 +67,8 @@ class cassandra(
     $client_encryption_cipher_suites        = $cassandra::params::client_encryption_cipher_suites,
     $using_dse                              = $cassandra::params::using_dse,
     $dse_config_path                        = $cassandra::params::dse_config_path,
+    $using_opscenter                        = $cassandra::params::using_opscenter,
+    $opscenter_version                      = $cassandra::params::opscenter_version,
 
 ) inherits cassandra::params {
     # Validate input parameters
@@ -80,6 +82,7 @@ class cassandra(
     validate_string($endpoint_snitch)
 
     validate_re($version, '\d*\.\d*\.\d*', 'The version should be x.y.z')
+    validate_re($opscenter_version, '\d*\.\d*\.\d*', 'The version should be x.y.z')
     validate_re($start_rpc, '^(true|false)$')
     validate_re($start_native_transport, '^(true|false)$')
     validate_re($rpc_server_type, '^(hsha|sync|async)$')
@@ -115,6 +118,7 @@ class cassandra(
     validate_string($client_encryption_truststore_password)
     validate_array($client_encryption_cipher_suites)
     validate_bool($using_dse)
+    validate_bool($using_opscenter)
 
     if(!is_integer($jmx_port)) {
         fail('jmx_port must be a port number between 1 and 65535')
@@ -182,7 +186,10 @@ class cassandra(
         Class['cassandra::repo'] -> Class['cassandra::install']
     }
 
-    class { 'cassandra::install': java_package => $java_package }
+    class { 'cassandra::install':
+        java_package    => $java_package,
+        using_opscenter => $using_opscenter,
+    }
 
     $version_config = $cassandra::version ? {
       default   =>  regsubst($cassandra::version, '^(\d\.\d+).*$', '\1'),

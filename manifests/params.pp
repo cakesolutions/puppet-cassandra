@@ -3,6 +3,12 @@ class cassandra::params {
         undef   => false,
         default => $::cassandra_using_dse,
     }
+
+    $using_opscenter = $::cassandra_using_opscenter ? {
+        undef   => false,
+        default => $::cassandra_using_opscenter,
+    }
+
     $include_repo = $::cassandra_include_repo ? {
         undef   => true,
         default => $::cassandra_include_repo
@@ -125,6 +131,11 @@ class cassandra::params {
     $version = $::cassandra_version ? {
         undef   => '2.1.2',
         default => $::cassandra_version,
+    }
+
+    $opscenter_version = $::cassandra_opscenter_version ? {
+        undef   => '5.1.2',
+        default => $::cassandra_opscenter_version,
     }
 
     $max_heap_size = $::cassandra_max_heap_size ? {
