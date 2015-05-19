@@ -13,6 +13,7 @@ class cassandra(
     $repo_pin                               = $cassandra::params::repo_pin,
     $repo_gpgcheck                          = $cassandra::params::repo_gpgcheck,
     $repo_enabled                           = $cassandra::params::repo_enabled,
+    $java_package                           = $cassandra::params::java_package,
     $max_heap_size                          = $cassandra::params::max_heap_size,
     $heap_newsize                           = $cassandra::params::heap_newsize,
     $jmx_port                               = $cassandra::params::jmx_port,
@@ -181,7 +182,7 @@ class cassandra(
         Class['cassandra::repo'] -> Class['cassandra::install']
     }
 
-    include cassandra::install
+    class { 'cassandra::install': java_package => $java_package }
 
     $version_config = $cassandra::version ? {
       default   =>  regsubst($cassandra::version, '^(\d\.\d+).*$', '\1'),

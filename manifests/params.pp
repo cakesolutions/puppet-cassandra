@@ -76,6 +76,11 @@ class cassandra::params {
                 default => $::cassandra_service_name,
             }
 
+            $java_package = $::cassandra_java_package ? {
+                undef   => 'openjdk-7-jre',
+                default => $::cassandra_java_package,
+            }
+
             $dse_config_path = $::dse_cassandra_config_path ? {
                 undef   => '/etc/dse',
                 default => $::dse_cassandra_config_path,
@@ -95,6 +100,11 @@ class cassandra::params {
             $service_name = $::cassandra_service_name ? {
                 undef   => 'cassandra',
                 default => $::cassandra_service_name,
+            }
+
+            $java_package = $::cassandra_java_package ? {
+                undef   => 'java-1.7.0-openjdk',
+                default => $::cassandra_java_package,
             }
 
             $dse_config_path = $::dse_cassandra_config_path ? {
