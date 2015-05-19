@@ -3,6 +3,147 @@ class cassandra::params {
         undef   => false,
         default => $::cassandra_using_dse,
     }
+
+    $dse_ldap_enabled = $::cassandra_dse_ldap_enabled ? {
+        undef   => false,
+        default => $::cassandra_dse_ldap_enabled
+    }
+
+    $dse_ldap_server_host = $::cassandra_dse_ldap_server_host ? {
+        undef   => '',
+        default => $::cassandra_dse_ldap_server_host
+    }
+
+     $dse_ldap_server_port = $::cassandra_dse_ldap_server_port ? {
+        undef   => '',
+        default => $::cassandra_dse_ldap_server_port
+    }
+
+     $dse_ldap_search_dn = $::cassandra_dse_ldap_search_dn ? {
+        undef   => '',
+        default => $::cassandra_dse_ldap_search_dn
+    }
+
+     $dse_ldap_search_password = $::cassandra_dse_ldap_search_password ? {
+        undef   => '',
+        default => $::cassandra_dse_ldap_search_password
+    }
+
+     $dse_ldap_use_ssl = $::cassandra_dse_ldap_use_ssl ? {
+        undef   => false,
+        default => $::cassandra_dse_ldap_use_ssl
+    }
+
+     $dse_ldap_use_tls = $::cassandra_dse_ldap_use_tls ? {
+        undef   => false,
+        default => $::cassandra_dse_ldap_use_tls
+    }
+
+     $dse_ldap_truststore_in_use = $::cassandra_dse_ldap_truststore_in_use ? {
+        undef   => false,
+        default => $::cassandra_dse_ldap_truststore_in_use
+    }
+
+     $dse_ldap_truststore_path = $::cassandra_dse_ldap_truststore_path ? {
+        undef   => '',
+        default => $::cassandra_dse_ldap_truststore_path
+    }
+
+     $dse_ldap_truststore_password = $::cassandra_dse_ldap_truststore_password ? {
+        undef   => '',
+        default => $::cassandra_dse_ldap_truststore_password
+    }
+
+     $dse_ldap_truststore_type = $::cassandra_dse_ldap_truststore_type ? {
+        undef   => '',
+        default => $::cassandra_dse_ldap_truststore_type
+    }
+
+     $dse_ldap_user_search_base = $::cassandra_dse_ldap_user_search_base ? {
+        undef   => '',
+        default => $::cassandra_dse_ldap_user_search_base
+    }
+
+     $dse_ldap_user_search_filter = $::cassandra_dse_ldap_user_search_filter ? {
+        undef   => '',
+        default => $::cassandra_dse_ldap_user_search_filter
+    }
+
+     $dse_ldap_credentials_validity_in_ms = $::cassandra_dse_ldap_credentials_validity_in_ms ? {
+        undef   => '0',
+        default => $::cassandra_dse_ldap_credentials_validity_in_ms
+    }
+
+     $dse_ldap_search_validity_in_seconds = $::cassandra_dse_ldap_search_validity_in_seconds ? {
+        undef   => '0',
+        default => $::cassandra_dse_ldap_search_validity_in_seconds
+    }
+
+     $dse_ldap_connection_pool_max_active = $::cassandra_dse_ldap_connection_pool_max_active ? {
+        undef   => '8',
+        default => $::cassandra_dse_ldap_connection_pool_max_active
+    }
+
+     $dse_ldap_connection_pool_max_idle = $::cassandra_dse_ldap_connection_pool_max_idle ? {
+        undef   => '8',
+        default => $::cassandra_dse_ldap_connection_pool_max_idle
+    }
+
+    $dse_audit_logging_enabled = $::cassandra_dse_audit_logging_enabled ? {
+        undef   => false,
+        default => $::cassandra_dse_audit_logging_enabled
+    }
+
+    $dse_audit_logger = $::cassandra_dse_audit_logger ? {
+        undef   => '',
+        default => $::cassandra_dse_audit_logger
+    }
+
+     $dse_audit_log4j_logger_dataaudit = $::cassandra_dse_audit_log4j_logger_dataaudit ? {
+        undef   => '',
+        default => $::cassandra_dse_audit_log4j_logger_dataaudit
+    }
+
+    $dse_audit_log4j_additivity_dataaudit = $::cassandra_dse_audit_log4j_additivity_dataaudit ? {
+        undef   => false,
+        default => $::cassandra_dse_audit_log4j_additivity_dataaudit
+    }
+
+     $dse_audit_log4j_appender_a = $::cassandra_dse_audit_log4j_appender_a ? {
+        undef   => '',
+        default => $::cassandra_dse_audit_log4j_appender_a
+    }
+
+     $dse_audit_log4j_appender_a_file = $::cassandra_dse_audit_log4j_appender_a_file ? {
+        undef   => '',
+        default => $::cassandra_dse_audit_log4j_appender_a_file
+    }
+
+     $dse_audit_log4j_appender_a_bufferedio = $::cassandra_dse_audit_log4j_appender_a_bufferedio ? {
+        undef   => true,
+        default => $::cassandra_dse_audit_log4j_appender_a_bufferedio
+    }
+
+     $dse_audit_log4j_appender_a_maxfilesize = $::cassandra_dse_audit_log4j_appender_a_maxfilesize ? {
+        undef   => '',
+        default => $::cassandra_dse_audit_log4j_appender_a_maxfilesize
+     }
+
+     $dse_audit_log4j_appender_a_maxbackupindex = $::cassandra_dse_audit_log4j_appender_a_maxbackupindex ? {
+        undef   => '',
+        default => $::cassandra_dse_audit_log4j_appender_a_maxbackupindex
+    }
+
+     $dse_audit_log4j_appender_a_layout = $::cassandra_dse_audit_log4j_appender_a_layout ? {
+        undef   => '',
+        default => $::cassandra_dse_audit_log4j_appender_a_layout
+    }
+
+     $dse_audit_log4j_appender_a_layout_conversionpattern = $::cassandra_dse_audit_log4j_appender_a_layout_conversionpattern ? {
+        undef   => '',
+        default => $::cassandra_dse_audit_log4j_appender_a_layout_conversionpattern
+     }
+
     $include_repo = $::cassandra_include_repo ? {
         undef   => true,
         default => $::cassandra_include_repo

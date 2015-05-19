@@ -52,6 +52,8 @@ class cassandra::config(
     $client_encryption_cipher_suites,
     $using_dse,
     $dse_config_path,
+    $dse_audit_logging_enabled,
+    $dse_audit_logger,
 ) {
     group { 'cassandra':
         ensure  => present,
@@ -87,6 +89,13 @@ class cassandra::config(
       file { "${dse_config_path}/dse.yaml":
           ensure  => file,
           content => template("${module_name}/dse.yaml.erb"),
+      }
+    }
+
+    if(($dse_audit_logging_enabled) and ($dse_audit_logger=="Log4JAuditWriter") ) {
+      file { "${dse_config_path}/cassandra/log4j-server.properties":
+          ensure  => file,
+          content => template("${module_name}/log4j-server.properties.erb"),
       }
     }
 
