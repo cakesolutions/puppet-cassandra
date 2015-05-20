@@ -365,6 +365,7 @@ class cassandra(
     class { 'cassandra::service':
         service_enable           => $service_enable,
         service_ensure           => $service_ensure,
+        using_opscenter          => $using_opscenter,
         opscenter_service_enable => $opscenter_service_enable,
         opscenter_service_ensure => $opscenter_service_ensure,
     }

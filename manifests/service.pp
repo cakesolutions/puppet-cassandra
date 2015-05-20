@@ -1,6 +1,7 @@
 class cassandra::service(
   $service_enable,
   $service_ensure,
+  $using_opscenter,
   $opscenter_service_enable,
   $opscenter_service_ensure
 ) {
