@@ -464,6 +464,17 @@ class cassandra::params {
         undef   => 'running',
         default => $::cassandra_service_ensure,
     }
+
+    $opscenter_service_enable = $::cassandra_opscenter_service_enable ? {
+        undef   => 'true',
+        default => $::cassandra_opscenter_service_enable,
+    }
+
+    $opscenter_service_ensure = $::cassandra_opscenter_service_ensure ? {
+        undef   => 'running',
+        default => $::cassandra_opscenter_service_ensure,
+    }
+
     $server_encryption_internode= $::cassandra_server_encryption_internode ? {
         undef   => 'none',
         default => $::cassandra_server_encryption_internode,
