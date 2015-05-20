@@ -4,11 +4,11 @@
 [webserver]
 port = <%= @opscenter_port %>
 interface = <%= @opscenter_interface %>
+<% if @opscenter_ssl_enabled -%>
 # The following settings can be used to enable ssl support for the opscenter
 # web application. Change these values to point to the ssl certificate and key
 # that you wish to use for your OpsCenter install, as well as the port you would like
 # to serve ssl traffic from.
-<% if @opscenter_ssl_enabled -%>
 ssl_keyfile = <%= @opscenter_ssl_keyfile %>
 ssl_certfile = <%= @opscenter_ssl_certfile %>
 ssl_port = <%= @opscenter_ssl_port %>
