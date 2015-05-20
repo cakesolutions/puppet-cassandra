@@ -118,7 +118,7 @@ class cassandra::config(
       }
     }
 
-    if(($dse_audit_logging_enabled) and ($dse_audit_logger=="Log4JAuditWriter") ) {
+    if(($dse_audit_logging_enabled) and ($dse_audit_logger=="Log4JAuditWriter")) {
       file { "${dse_config_path}/cassandra/log4j-server.properties":
           ensure  => file,
           content => template("${module_name}/log4j-server.properties.erb"),

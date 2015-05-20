@@ -42,9 +42,9 @@ ldap_options:
     #Set to true to initiate a TLS encrypted connection on the default ldap port
     use_tls: <%= @dse_ldap_use_tls %>
     <%if @dse_ldap_truststore_in_use -%>
-        truststore_path: <%= @dse_ldap_truststore_path %>
-        truststore_password: <%= @dse_ldap_truststore_password %>
-        truststore_type: <%= @dse_ldap_truststore_type %>
+    truststore_path: <%= @dse_ldap_truststore_path %>
+    truststore_password: <%= @dse_ldap_truststore_password %>
+    truststore_type: <%= @dse_ldap_truststore_type %>
     <% end -%>
     user_search_base: <%= @dse_ldap_user_search_base %>
     user_search_filter: <%= @dse_ldap_user_search_filter%>

@@ -240,9 +240,6 @@ class cassandra(
         notice("Starting with Cassandra 1.2 you shouldn't set an initial_token but set num_tokens accordingly.")
     }
 
-    if($dse_ldap_enabled) {
-        #Validate the LDAP parameters when $dse_ldap_enabled is true
-    }
     # Anchors for containing the implementation class
     anchor { 'cassandra::begin': }
 
