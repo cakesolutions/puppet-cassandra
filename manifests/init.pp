@@ -51,6 +51,8 @@ class cassandra(
     $thread_stack_size                      = $cassandra::params::thread_stack_size,
     $service_enable                         = $cassandra::params::service_enable,
     $service_ensure                         = $cassandra::params::service_ensure,
+    $opscenter_service_enable               = $cassandra::params::opscenter_service_enable,
+    $opscenter_service_ensure               = $cassandra::params::opscenter_service_ensure,
     $server_encryption_internode            = $cassandra::params::server_encryption_internode,
     $server_encryption_require_auth         = $cassandra::params::server_encryption_require_auth,
     $server_encryption_keystore             = $cassandra::params::server_encryption_keystore,
@@ -98,6 +100,8 @@ class cassandra(
     validate_re("${thread_stack_size}", '^[0-9]+$')
     validate_re($service_enable, '^(true|false)$')
     validate_re($service_ensure, '^(running|stopped)$')
+    validate_re($opscenter_service_enable, '^(true|false)$')
+    validate_re($opscenter_service_ensure, '^(running|stopped)$')
 
     validate_array($additional_jvm_opts)
     validate_array($seeds)
@@ -254,8 +258,10 @@ class cassandra(
 
 
     class { 'cassandra::service':
-        service_enable => $service_enable,
-        service_ensure => $service_ensure,
+        service_enable           => $service_enable,
+        service_ensure           => $service_ensure,
+        opscenter_service_enable => $opscenter_service_enable,
+        opscenter_service_ensure => $opscenter_service_ensure,
     }
 
     anchor { 'cassandra::end': }
