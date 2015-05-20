@@ -83,7 +83,7 @@ class cassandra(
     $dse_ldap_search_validity_in_seconds                  = $cassandra::params::dse_ldap_search_validity_in_seconds,
     $dse_ldap_connection_pool_max_active                  = $cassandra::params::dse_ldap_connection_pool_max_active,
     $dse_ldap_connection_pool_max_idle                    = $cassandra::params::dse_ldap_connection_pool_max_idle,
-    $dse_audit_logging_enabled                            = $cassandra::params::dse_audit_logging_enabled
+    $dse_audit_logging_enabled                            = $cassandra::params::dse_audit_logging_enabled,
     $dse_audit_logger                                     = $cassandra::params::dse_audit_logger,
     $dse_audit_log4j_logger_dataaudit                     = $cassandra::params::log4j_logger_dataaudit,
     $dse_audit_log4j_additivity_dataaudit                 = $cassandra::params::dse_audit_log4j_additivity_dataaudit,
@@ -336,7 +336,7 @@ class cassandra(
         dse_ldap_search_validity_in_seconds                  => $dse_ldap_search_validity_in_seconds,
         dse_ldap_connection_pool_max_active                  => $dse_ldap_connection_pool_max_active,
         dse_ldap_connection_pool_max_idle                    => $dse_ldap_connection_pool_max_idle,
-        dse_audit_logging_enabled                            => $dse_audit_logging_enabled
+        dse_audit_logging_enabled                            => $dse_audit_logging_enabled,
         dse_audit_logger                                     => $dse_audit_logger,
         dse_audit_log4j_logger_dataaudit                     => $log4j_logger_dataaudit,
         dse_audit_log4j_additivity_dataaudit                 => $dse_audit_log4j_additivity_dataaudit,
