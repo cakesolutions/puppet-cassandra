@@ -80,6 +80,15 @@ class cassandra::config(
     $dse_audit_log4j_appender_a_maxbackupindex,
     $dse_audit_log4j_appender_a_layout,
     $dse_audit_log4j_appender_a_layout_conversionpattern,
+    $using_opscenter,
+    $opscenter_port,
+    $opscenter_interface,
+    $opscenter_ssl_enabled,
+    $opscenter_ssl_keyfile,
+    $opscenter_ssl_certfile,
+    $opscenter_ssl_port,
+    $opscenter_logging_level,
+    $opscenter_authentication_enabled,
 ) {
     group { 'cassandra':
         ensure  => present,
@@ -122,6 +131,15 @@ class cassandra::config(
       file { "${dse_config_path}/cassandra/log4j-server.properties":
           ensure  => file,
           content => template("${module_name}/log4j-server.properties.erb"),
+      }
+    }
+
+    if($using_opscenter) {
+      file { "/etc/opscenter/opscenterd.conf":
+        ensure  => file,
+        owner   => opscenter,
+        group   => opscenter,
+        content => template("${module_name}/opscenterd.conf.erb"),
       }
     }
 

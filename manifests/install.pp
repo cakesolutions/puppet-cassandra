@@ -1,4 +1,4 @@
-class cassandra::install( $java_package ) {
+class cassandra::install( $java_package, $using_opscenter ) {
 
     if !defined (Package['java']) {
       package { 'java':
@@ -11,6 +11,13 @@ class cassandra::install( $java_package ) {
         ensure  => $cassandra::version,
         name    => $cassandra::package_name,
         require => Package['java']
+    }
+
+    if($using_opscenter) {
+      package { 'opscenter':
+        ensure  => $cassandra::opscenter_version,
+        require => Package['java']
+      }
     }
 
     $python_cql_name = $::osfamily ? {

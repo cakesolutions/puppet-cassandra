@@ -94,6 +94,18 @@ class cassandra(
     $dse_audit_log4j_appender_a_maxbackupindex            = $cassandra::params::dse_audit_log4j_appender_a_maxbackupindex,
     $dse_audit_log4j_appender_a_layout                    = $cassandra::params::dse_audit_log4j_appender_a_layout,
     $dse_audit_log4j_appender_a_layout_conversionpattern  = $cassandra::params::dse_audit_log4j_appender_a_layout_conversionpattern,
+    $using_opscenter                                      = $cassandra::params::using_opscenter,
+    $opscenter_service_enable                             = $cassandra::params::opscenter_service_enable,
+    $opscenter_service_ensure                             = $cassandra::params::opscenter_service_ensure,
+    $opscenter_version                                    = $cassandra::params::opscenter_version,
+    $opscenter_port                                       = $cassandra::params::opscenter_port,
+    $opscenter_interface                                  = $cassandra::params::opscenter_interface,
+    $opscenter_ssl_enabled                                = $cassandra::params::opscenter_ssl_enabled,
+    $opscenter_ssl_keyfile                                = $cassandra::params::opscenter_ssl_keyfile,
+    $opscenter_ssl_certfile                               = $cassandra::params::opscenter_ssl_certfile,
+    $opscenter_ssl_port                                   = $cassandra::params::opscenter_ssl_port,
+    $opscenter_logging_level                              = $cassandra::params::opscenter_logging_level,
+    $opscenter_authentication_enabled                     = $cassandra::params::opscenter_authentication_enabled,
 
 ) inherits cassandra::params {
     # Validate input parameters
@@ -107,6 +119,7 @@ class cassandra(
     validate_string($endpoint_snitch)
 
     validate_re($version, '\d*\.\d*\.\d*', 'The version should be x.y.z')
+    validate_re($opscenter_version, '\d*\.\d*\.\d*', 'The version should be x.y.z')
     validate_re($start_rpc, '^(true|false)$')
     validate_re($start_native_transport, '^(true|false)$')
     validate_re($rpc_server_type, '^(hsha|sync|async)$')
@@ -122,6 +135,8 @@ class cassandra(
     validate_re("${thread_stack_size}", '^[0-9]+$')
     validate_re($service_enable, '^(true|false)$')
     validate_re($service_ensure, '^(running|stopped)$')
+    validate_re($opscenter_service_enable, '^(true|false)$')
+    validate_re($opscenter_service_ensure, '^(running|stopped)$')
 
     validate_array($additional_jvm_opts)
     validate_array($seeds)
@@ -142,6 +157,7 @@ class cassandra(
     validate_string($client_encryption_truststore_password)
     validate_array($client_encryption_cipher_suites)
     validate_bool($using_dse)
+    validate_bool($using_opscenter)
     validate_bool($dse_ldap_enabled)
 
     if($dse_ldap_enabled) {
@@ -192,6 +208,17 @@ class cassandra(
         validate_string($dse_audit_log4j_appender_a_layout_conversionpattern)
     }
 
+    validate_bool($opscenter_ssl_enabled)
+    if($opscenter_ssl_enabled) {
+        if(!is_integer($opscenter_ssl_port)) {
+            fail('opscenter_ssl_port must be a port number between 1 and 65535')
+        }
+    }
+
+    if(!is_integer($opscenter_port)) {
+        fail('opscenter_port must be a port number between 1 and 65535')
+    }
+
     if(!is_integer($jmx_port)) {
         fail('jmx_port must be a port number between 1 and 65535')
     }
@@ -199,6 +226,13 @@ class cassandra(
     if(!is_ip_address($listen_address)) {
         fail('listen_address must be an IP address')
     }
+
+    if(!is_ip_address($opscenter_interface)) {
+        fail('opscenter_interface must be an IP address')
+    }
+
+    validate_re($opscenter_logging_level, '^(TRACE|DEBUG|INFO|WARN|ERROR)$')
+    validate_re($opscenter_authentication_enabled, '^(True|False)$')
 
     if(!empty($broadcast_address) and !is_ip_address($broadcast_address)) {
         fail('broadcast_address must be an IP address')
@@ -258,7 +292,10 @@ class cassandra(
         Class['cassandra::repo'] -> Class['cassandra::install']
     }
 
-    class { 'cassandra::install': java_package => $java_package }
+    class { 'cassandra::install':
+        java_package    => $java_package,
+        using_opscenter => $using_opscenter,
+    }
 
     $version_config = $cassandra::version ? {
       default   =>  regsubst($cassandra::version, '^(\d\.\d+).*$', '\1'),
@@ -266,94 +303,105 @@ class cassandra(
     }
 
     class { 'cassandra::config':
-        version                                              => $version_config,
-        config_path                                          => $config_path,
-        max_heap_size                                        => $max_heap_size,
-        heap_newsize                                         => $heap_newsize,
-        jmx_port                                             => $jmx_port,
-        additional_jvm_opts                                  => $additional_jvm_opts,
-        cluster_name                                         => $cluster_name,
-        start_native_transport                               => $start_native_transport,
-        start_rpc                                            => $start_rpc,
-        listen_address                                       => $listen_address,
-        broadcast_address                                    => $broadcast_address,
-        authenticator                                        => $authenticator,
-        authorizer                                           => $authorizer,
-        rpc_address                                          => $rpc_address,
-        rpc_port                                             => $rpc_port,
-        rpc_server_type                                      => $rpc_server_type,
-        rpc_min_threads                                      => $rpc_min_threads,
-        rpc_max_threads                                      => $rpc_max_threads,
-        native_transport_port                                => $native_transport_port,
-        storage_port                                         => $storage_port,
-        partitioner                                          => $partitioner,
-        data_file_directories                                => $data_file_directories,
-        commitlog_directory                                  => $commitlog_directory,
-        saved_caches_directory                               => $saved_caches_directory,
-        initial_token                                        => $initial_token,
-        num_tokens                                           => $num_tokens,
-        seeds                                                => $seeds,
-        concurrent_reads                                     => $concurrent_reads,
-        concurrent_writes                                    => $concurrent_writes,
-        incremental_backups                                  => $incremental_backups,
-        snapshot_before_compaction                           => $snapshot_before_compaction,
-        auto_snapshot                                        => $auto_snapshot,
-        multithreaded_compaction                             => $multithreaded_compaction,
-        endpoint_snitch                                      => $endpoint_snitch,
-        internode_compression                                => $internode_compression,
-        disk_failure_policy                                  => $disk_failure_policy,
-        thread_stack_size                                    => $thread_stack_size,
-        server_encryption_internode                          => $server_encryption_internode,
-        server_encryption_require_auth                       => $server_encryption_require_auth,
-        server_encryption_keystore                           => $server_encryption_keystore,
-        server_encryption_keystore_password                  => $server_encryption_keystore_password,
-        server_encryption_truststore                         => $server_encryption_truststore,
-        server_encryption_truststore_password                => $server_encryption_truststore_password,
-        server_encryption_cipher_suites                      => $server_encryption_cipher_suites,
-        client_encryption_enabled                            => $client_encryption_enabled,
-        client_encryption_keystore                           => $client_encryption_keystore,
-        client_encryption_keystore_password                  => $client_encryption_keystore_password,
-        client_encryption_require_auth                       => $client_encryption_require_auth,
-        client_encryption_truststore                         => $client_encryption_truststore,
-        client_encryption_truststore_password                => $client_encryption_truststore_password,
-        client_encryption_cipher_suites                      => $client_encryption_cipher_suites,
-        using_dse                                            => $using_dse,
-        dse_config_path                                      => $dse_config_path,
-        dse_ldap_enabled                                     => $dse_ldap_enabled,
-        dse_ldap_server_host                                 => $dse_ldap_server_host,
-        dse_ldap_server_port                                 => $dse_ldap_server_port,
-        dse_ldap_search_dn                                   => $dse_ldap_search_dn,
-        dse_ldap_search_password                             => $dse_ldap_search_password,
-        dse_ldap_use_ssl                                     => $dse_ldap_use_ssl,
-        dse_ldap_use_tls                                     => $dse_ldap_use_tls,
-        dse_ldap_truststore_in_use                           => $dse_ldap_truststore_in_use,
-        dse_ldap_truststore_path                             => $dse_ldap_truststore_path,
-        dse_ldap_truststore_password                         => $dse_ldap_truststore_password,
-        dse_ldap_truststore_type                             => $dse_ldap_truststore_type,
-        dse_ldap_user_search_base                            => $dse_ldap_user_search_base,
-        dse_ldap_user_search_filter                          => $dse_ldap_user_search_filter,
-        dse_ldap_credentials_validity_in_ms                  => $dse_ldap_credentials_validity_in_ms,
-        dse_ldap_search_validity_in_seconds                  => $dse_ldap_search_validity_in_seconds,
-        dse_ldap_connection_pool_max_active                  => $dse_ldap_connection_pool_max_active,
-        dse_ldap_connection_pool_max_idle                    => $dse_ldap_connection_pool_max_idle,
-        dse_audit_logging_enabled                            => $dse_audit_logging_enabled,
-        dse_audit_logger                                     => $dse_audit_logger,
-        dse_audit_log4j_logger_dataaudit                     => $log4j_logger_dataaudit,
-        dse_audit_log4j_additivity_dataaudit                 => $dse_audit_log4j_additivity_dataaudit,
-        dse_audit_log4j_appender_a                           => $dse_audit_log4j_appender_a,
-        dse_audit_log4j_appender_a_file                      => $dse_audit_log4j_appender_a_file,
-        dse_audit_log4j_appender_a_bufferedio                => $dse_audit_log4j_appender_a_bufferedio,
-        dse_audit_log4j_appender_a_maxfilesize               => $dse_audit_log4j_appender_a_maxfilesize,
-        dse_audit_log4j_appender_a_maxbackupindex            => $dse_audit_log4j_appender_a_maxbackupindex,
-        dse_audit_log4j_appender_a_layout                    => $dse_audit_log4j_appender_a_layout,
-        dse_audit_log4j_appender_a_layout_conversionpattern  => $dse_audit_log4j_appender_a_layout_conversionpattern,
-
-}
+        version                                             => $version_config,
+        config_path                                         => $config_path,
+        max_heap_size                                       => $max_heap_size,
+        heap_newsize                                        => $heap_newsize,
+        jmx_port                                            => $jmx_port,
+        additional_jvm_opts                                 => $additional_jvm_opts,
+        cluster_name                                        => $cluster_name,
+        start_native_transport                              => $start_native_transport,
+        start_rpc                                           => $start_rpc,
+        listen_address                                      => $listen_address,
+        broadcast_address                                   => $broadcast_address,
+        authenticator                                       => $authenticator,
+        authorizer                                          => $authorizer,
+        rpc_address                                         => $rpc_address,
+        rpc_port                                            => $rpc_port,
+        rpc_server_type                                     => $rpc_server_type,
+        rpc_min_threads                                     => $rpc_min_threads,
+        rpc_max_threads                                     => $rpc_max_threads,
+        native_transport_port                               => $native_transport_port,
+        storage_port                                        => $storage_port,
+        partitioner                                         => $partitioner,
+        data_file_directories                               => $data_file_directories,
+        commitlog_directory                                 => $commitlog_directory,
+        saved_caches_directory                              => $saved_caches_directory,
+        initial_token                                       => $initial_token,
+        num_tokens                                          => $num_tokens,
+        seeds                                               => $seeds,
+        concurrent_reads                                    => $concurrent_reads,
+        concurrent_writes                                   => $concurrent_writes,
+        incremental_backups                                 => $incremental_backups,
+        snapshot_before_compaction                          => $snapshot_before_compaction,
+        auto_snapshot                                       => $auto_snapshot,
+        multithreaded_compaction                            => $multithreaded_compaction,
+        endpoint_snitch                                     => $endpoint_snitch,
+        internode_compression                               => $internode_compression,
+        disk_failure_policy                                 => $disk_failure_policy,
+        thread_stack_size                                   => $thread_stack_size,
+        server_encryption_internode                         => $server_encryption_internode,
+        server_encryption_require_auth                      => $server_encryption_require_auth,
+        server_encryption_keystore                          => $server_encryption_keystore,
+        server_encryption_keystore_password                 => $server_encryption_keystore_password,
+        server_encryption_truststore                        => $server_encryption_truststore,
+        server_encryption_truststore_password               => $server_encryption_truststore_password,
+        server_encryption_cipher_suites                     => $server_encryption_cipher_suites,
+        client_encryption_enabled                           => $client_encryption_enabled,
+        client_encryption_keystore                          => $client_encryption_keystore,
+        client_encryption_keystore_password                 => $client_encryption_keystore_password,
+        client_encryption_require_auth                      => $client_encryption_require_auth,
+        client_encryption_truststore                        => $client_encryption_truststore,
+        client_encryption_truststore_password               => $client_encryption_truststore_password,
+        client_encryption_cipher_suites                     => $client_encryption_cipher_suites,
+        using_dse                                           => $using_dse,
+        dse_config_path                                     => $dse_config_path,
+        dse_ldap_enabled                                    => $dse_ldap_enabled,
+        dse_ldap_server_host                                => $dse_ldap_server_host,
+        dse_ldap_server_port                                => $dse_ldap_server_port,
+        dse_ldap_search_dn                                  => $dse_ldap_search_dn,
+        dse_ldap_search_password                            => $dse_ldap_search_password,
+        dse_ldap_use_ssl                                    => $dse_ldap_use_ssl,
+        dse_ldap_use_tls                                    => $dse_ldap_use_tls,
+        dse_ldap_truststore_in_use                          => $dse_ldap_truststore_in_use,
+        dse_ldap_truststore_path                            => $dse_ldap_truststore_path,
+        dse_ldap_truststore_password                        => $dse_ldap_truststore_password,
+        dse_ldap_truststore_type                            => $dse_ldap_truststore_type,
+        dse_ldap_user_search_base                           => $dse_ldap_user_search_base,
+        dse_ldap_user_search_filter                         => $dse_ldap_user_search_filter,
+        dse_ldap_credentials_validity_in_ms                 => $dse_ldap_credentials_validity_in_ms,
+        dse_ldap_search_validity_in_seconds                 => $dse_ldap_search_validity_in_seconds,
+        dse_ldap_connection_pool_max_active                 => $dse_ldap_connection_pool_max_active,
+        dse_ldap_connection_pool_max_idle                   => $dse_ldap_connection_pool_max_idle,
+        dse_audit_logging_enabled                           => $dse_audit_logging_enabled,
+        dse_audit_logger                                    => $dse_audit_logger,
+        dse_audit_log4j_logger_dataaudit                    => $log4j_logger_dataaudit,
+        dse_audit_log4j_additivity_dataaudit                => $dse_audit_log4j_additivity_dataaudit,
+        dse_audit_log4j_appender_a                          => $dse_audit_log4j_appender_a,
+        dse_audit_log4j_appender_a_file                     => $dse_audit_log4j_appender_a_file,
+        dse_audit_log4j_appender_a_bufferedio               => $dse_audit_log4j_appender_a_bufferedio,
+        dse_audit_log4j_appender_a_maxfilesize              => $dse_audit_log4j_appender_a_maxfilesize,
+        dse_audit_log4j_appender_a_maxbackupindex           => $dse_audit_log4j_appender_a_maxbackupindex,
+        dse_audit_log4j_appender_a_layout                   => $dse_audit_log4j_appender_a_layout,
+        dse_audit_log4j_appender_a_layout_conversionpattern => $dse_audit_log4j_appender_a_layout_conversionpattern,
+        using_opscenter                                     => $using_opscenter,
+        opscenter_port                                      => $opscenter_port,
+        opscenter_interface                                 => $opscenter_interface,
+        opscenter_ssl_enabled                               => $opscenter_ssl_enabled,
+        opscenter_ssl_keyfile                               => $opscenter_ssl_keyfile,
+        opscenter_ssl_certfile                              => $opscenter_ssl_certfile,
+        opscenter_ssl_port                                  => $opscenter_ssl_port,
+        opscenter_logging_level                             => $opscenter_logging_level,
+        opscenter_authentication_enabled                    => $opscenter_authentication_enabled
+    }
 
 
     class { 'cassandra::service':
-        service_enable => $service_enable,
-        service_ensure => $service_ensure,
+        service_enable           => $service_enable,
+        service_ensure           => $service_ensure,
+        using_opscenter          => $using_opscenter,
+        opscenter_service_enable => $opscenter_service_enable,
+        opscenter_service_ensure => $opscenter_service_ensure,
     }
 
     anchor { 'cassandra::end': }

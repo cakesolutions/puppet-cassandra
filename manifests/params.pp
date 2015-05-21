@@ -4,6 +4,11 @@ class cassandra::params {
         default => $::cassandra_using_dse,
     }
 
+    $using_opscenter = $::cassandra_using_opscenter ? {
+        undef   => false,
+        default => $::cassandra_using_opscenter,
+    }
+
     $dse_ldap_enabled = $::cassandra_dse_ldap_enabled ? {
         undef   => false,
         default => $::cassandra_dse_ldap_enabled
@@ -268,6 +273,11 @@ class cassandra::params {
         default => $::cassandra_version,
     }
 
+    $opscenter_version = $::cassandra_opscenter_version ? {
+        undef   => '5.1.2-1',
+        default => $::cassandra_opscenter_version,
+    }
+
     $max_heap_size = $::cassandra_max_heap_size ? {
         undef   => '',
         default => $::cassandra_max_heap_size,
@@ -454,6 +464,17 @@ class cassandra::params {
         undef   => 'running',
         default => $::cassandra_service_ensure,
     }
+
+    $opscenter_service_enable = $::cassandra_opscenter_service_enable ? {
+        undef   => 'true',
+        default => $::cassandra_opscenter_service_enable,
+    }
+
+    $opscenter_service_ensure = $::cassandra_opscenter_service_ensure ? {
+        undef   => 'running',
+        default => $::cassandra_opscenter_service_ensure,
+    }
+
     $server_encryption_internode= $::cassandra_server_encryption_internode ? {
         undef   => 'none',
         default => $::cassandra_server_encryption_internode,
@@ -509,6 +530,38 @@ class cassandra::params {
     $client_encryption_cipher_suites = $::cassandra_client_encryption_cipher_suites ? {
         undef   => [],
         default => $::cassandra_client_encryption_cipher_suites,
+    }
+    $opscenter_port = $::cassandra_opscenter_port ? {
+        undef   => '8888',
+        default => $::cassandra_opscenter_port,
+    }
+    $opscenter_interface = $::cassandra_opscenter_interface ? {
+        undef   => '0.0.0.0',
+        default => $::cassandra_opscenter_interface,
+    }
+    $opscenter_ssl_enabled = $::cassandra_opscenter_ssl_enabled ? {
+        undef   => false,
+        default => $::cassandra_opscenter_ssl_enabled,
+    }
+    $opscenter_ssl_keyfile = $::cassandra_opscenter_ssl_keyfile ? {
+        undef   => '/var/lib/opscenter/ssl/opscenter.key',
+        default => $::cassandra_opscenter_ssl_keyfile,
+    }
+    $opscenter_ssl_certfile = $::cassandra_opscenter_ssl_certfile ? {
+        undef   => '/var/lib/opscenter/ssl/opscenter.pem',
+        default => $::cassandra_opscenter_ssl_certfile,
+    }
+    $opscenter_ssl_port = $::cassandra_opscenter_ssl_port ? {
+        undef   => '8443',
+        default => $::cassandra_opscenter_ssl_port,
+    }
+    $opscenter_logging_level = $::cassandra_opscenter_logging_level ? {
+        undef   => 'INFO',
+        default => $::cassandra_opscenter_logging_level,
+    }
+    $opscenter_authentication_enabled = $::cassandra_opscenter_authentication_enabled ? {
+        undef   => 'True',
+        default => $::cassandra_opscenter_authentication_enabled,
     }
 
 }
