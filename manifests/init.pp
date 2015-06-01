@@ -16,6 +16,8 @@ class cassandra(
     $max_heap_size                                        = $cassandra::params::max_heap_size,
     $heap_newsize                                         = $cassandra::params::heap_newsize,
     $jmx_port                                             = $cassandra::params::jmx_port,
+    $jmx_username                                         = $cassandra::params::jmx_username,
+    $jmx_password                                         = $cassandra::params::jmx_password,
     $additional_jvm_opts                                  = $cassandra::params::additional_jvm_opts,
     $cluster_name                                         = $cassandra::params::cluster_name,
     $listen_address                                       = $cassandra::params::listen_address,
@@ -106,7 +108,22 @@ class cassandra(
     $opscenter_ssl_port                                   = $cassandra::params::opscenter_ssl_port,
     $opscenter_logging_level                              = $cassandra::params::opscenter_logging_level,
     $opscenter_authentication_enabled                     = $cassandra::params::opscenter_authentication_enabled,
-
+    $agents_api_port                                      = $cassandra::params::agents_api_port,
+    $agents_http_timeout                                  = $cassandra::params::agents_http_timeout,
+    $agents_ssl_keystore                                  = $cassandra::params::agents_ssl_keystore,
+    $agents_ssl_keystore_password                         = $cassandra::params::agents_ssl_keystore_password,
+    $agents_ec2_metadata_api_host                         = $cassandra::params::agents_ec2_metadata_api_host,
+    $agents_concurrent_agent_requests                     = $cassandra::params::agents_concurrent_agent_requests,
+    $agents_concurrent_settings_requests                  = $cassandra::params::agents_concurrent_settings_requests,
+    $agents_concurrent_snapshot_list_requests             = $cassandra::params::agents_concurrent_snapshot_list_requests,
+    $agents_snapshot_wait                                 = $cassandra::params::agents_snapshot_wait,
+    $agents_remote_backup_region                          = $cassandra::params::agents_remote_backup_region,
+    $agents_backup_staging_dir                            = $cassandra::params::agents_backup_staging_dir,
+    $agents_restore_req_update_period                     = $cassandra::params::agents_restore_req_update_period,
+    $cassandra_username                                   = $cassandra::params::cassandra_username,
+    $cassandra_password                                   = $cassandra::params::cassandra_password,
+    $cassandra_seed_hosts                                 = $cassandra::params::cassandra_seed_hosts,
+    $cassandra_api_port                                   = $cassandra::params::cassandra_api_port,
 ) inherits cassandra::params {
     # Validate input parameters
     validate_bool($include_repo)
@@ -160,8 +177,45 @@ class cassandra(
     validate_bool($using_opscenter)
     validate_bool($dse_ldap_enabled)
 
+    validate_string($jmx_username)
+    validate_string($jmx_password)
+    if(!is_integer($agents_api_port)) {
+        fail('agents_api_port must be a port number between 1 and 65535')
+    }
+    if(!is_integer($agents_http_timeout)) {
+        fail('agents_http_timeout must be an integer higher or equal to 0')
+    }
+    validate_string($agents_ssl_keystore)
+    validate_string($agents_ssl_keystore_password)
+    if(!is_ip_address($agents_ec2_metadata_api_host)) {
+        fail('agents_ec2_metadata_api_host must be an IP address')
+    }
+    if(!is_integer($agents_concurrent_agent_requests)) {
+        fail('agents_concurrent_agent_requests must be an integer higher or equal to 0')
+    }
+    if(!is_integer($agents_concurrent_settings_requests)) {
+        fail('agents_concurrent_agent_requests must be an integer higher or equal to 0')
+    }
+    if(!is_integer($agents_concurrent_snapshot_list_requests)) {
+        fail('agents_concurrent_snapshot_list_requests must be an integer higher or equal to 0')
+    }
+    if(!is_integer($snapshot_threshold)) {
+        fail('snapshot_threshold must be an integer higher or equal to 0')
+    }
+    validate_string($agents_remote_backup_region)
+    validate_string($agents_backup_staging_dir)
+    if(!is_integer($agents_restore_req_update_period)) {
+        fail('agents_restore_req_update_period must be an integer higher or equal to 0')
+    }
+    validate_string($cassandra_username)
+    validate_string($cassandra_password)
+    validate_string($cassandra_seed_hosts)
+    if(!is_integer($cassandra_api_port)) {
+        fail('cassandra_api_port must be a port number between 1 and 65535')
+    }
+
     if($dse_ldap_enabled) {
-       #Validate the LDAP parameters when $dse_ldap_enabled is true
+        #Validate the LDAP parameters when $dse_ldap_enabled is true
         validate_string($dse_ldap_server_host)
         if(!is_integer($dse_ldap_server_port)) {
             fail('server_port must be a port number between 1 and 65535')
@@ -308,6 +362,8 @@ class cassandra(
         max_heap_size                                       => $max_heap_size,
         heap_newsize                                        => $heap_newsize,
         jmx_port                                            => $jmx_port,
+        jmx_username                                        => $jmx_username,
+        jmx_password                                        => $jmx_password,
         additional_jvm_opts                                 => $additional_jvm_opts,
         cluster_name                                        => $cluster_name,
         start_native_transport                              => $start_native_transport,
@@ -392,7 +448,23 @@ class cassandra(
         opscenter_ssl_certfile                              => $opscenter_ssl_certfile,
         opscenter_ssl_port                                  => $opscenter_ssl_port,
         opscenter_logging_level                             => $opscenter_logging_level,
-        opscenter_authentication_enabled                    => $opscenter_authentication_enabled
+        opscenter_authentication_enabled                    => $opscenter_authentication_enabled,
+        agents_api_port                                     => $agents_api_port,
+        agents_http_timeout                                 => $agents_http_timeout,
+        agents_ssl_keystore                                 => $agents_ssl_keystore,
+        agents_ssl_keystore_password                        => $agents_ssl_keystore_password,
+        agents_ec2_metadata_api_host                        => $agents_ec2_metadata_api_host,
+        agents_concurrent_agent_requests                    => $agents_concurrent_agent_requests,
+        agents_concurrent_settings_requests                 => $agents_concurrent_settings_requests,
+        agents_concurrent_snapshot_list_requests            => $agents_concurrent_snapshot_list_requests,
+        agents_snapshot_wait                                => $agents_snapshot_wait,
+        agents_remote_backup_region                         => $agents_remote_backup_region,
+        agents_backup_staging_dir                           => $agents_backup_staging_dir,
+        agents_restore_req_update_period                    => $agents_restore_req_update_period,
+        cassandra_username                                  => $cassandra_username,
+        cassandra_password                                  => $cassandra_password,
+        cassandra_seed_hosts                                => $cassandra_seed_hosts,
+        cassandra_api_port                                  => $cassandra_api_port,
     }
 
 

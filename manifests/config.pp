@@ -4,6 +4,8 @@ class cassandra::config(
     $max_heap_size,
     $heap_newsize,
     $jmx_port,
+    $jmx_username,
+    $jmx_password,
     $additional_jvm_opts,
     $cluster_name,
     $start_native_transport,
@@ -89,6 +91,22 @@ class cassandra::config(
     $opscenter_ssl_port,
     $opscenter_logging_level,
     $opscenter_authentication_enabled,
+    $agents_api_port,
+    $agents_http_timeout,
+    $agents_ssl_keystore,
+    $agents_ssl_keystore_password,
+    $agents_ec2_metadata_api_host,
+    $agents_concurrent_agent_requests,
+    $agents_concurrent_settings_requests,
+    $agents_concurrent_snapshot_list_requests,
+    $agents_snapshot_wait,
+    $agents_remote_backup_region,
+    $agents_backup_staging_dir,
+    $agents_restore_req_update_period,
+    $cassandra_username,
+    $cassandra_password,
+    $cassandra_seed_hosts,
+    $cassandra_api_port,
 ) {
     group { 'cassandra':
         ensure  => present,
@@ -140,6 +158,17 @@ class cassandra::config(
         owner   => opscenter,
         group   => opscenter,
         content => template("${module_name}/opscenterd.conf.erb"),
+      }
+
+      file { "/etc/opscenter/clusters":
+          ensure => directory,
+      }
+
+      file { "/etc/opscenter/clusters/${cluster_name}.conf":
+          ensure  => file,
+          owner   => opscenter,
+          group   => opscenter,
+          content => template("${module_name}/cluster_name.conf.erb"),
       }
     }
 
