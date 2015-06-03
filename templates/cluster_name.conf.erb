@@ -4,18 +4,6 @@ password = <%= @jmx_password %>
 port = <%= @jmx_port %>
 
 [agents]
-api_port = <%= @agents_api_port %>
-http_timeout = <%= @agents_http_timeout %>
-ssl_keystore = <%= @agents_ssl_keystore %>
-ssl_keystore_password = <%= @agents_ssl_keystore_password %>
-ec2_metadata_api_host = <%=  @agents_ec2_metadata_api_host %>
-concurrent_agent_requests = <%= @agents_concurrent_agent_requests %>
-concurrent_settings_requests = <%= @agents_concurrent_settings_requests %>
-concurrent_snapshot_list_requests = <%= @agents_concurrent_snapshot_list_requests %>
-snapshot_wait = <%= @agents_snapshot_wait %>
-remote_backup_region = <%= @agents_remote_backup_region %>
-backup_staging_dir = <%= @agents_backup_staging_dir %>
-restore_req_update_period = <%= @agents_restore_req_update_period %>
 
 [cassandra]
 username = <%= @cassandra_username %>

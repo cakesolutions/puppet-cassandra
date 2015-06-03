@@ -573,54 +573,6 @@ class cassandra::params {
         undef   => 'True',
         default => $::cassandra_opscenter_authentication_enabled,
     }
-    $agents_api_port = $::cassandra_agents_api_port ? {
-        undef   => '61621',
-        default => $::cassandra_agents_api_port,
-    }
-   $agents_http_timeout = $::cassandra_agents_http_timeout ? {
-        undef   => '10',
-        default => $::cassandra_agents_http_timeout,
-    }
-    $agents_ssl_keystore = $::cassandra_agents_ssl_keystore ? {
-        undef   => '',
-        default => $::cassandra_agents_ssl_keystore,
-    }
-    $agents_ssl_keystore_password = $::cassandra_agents_ssl_keystore_password ? {
-        undef   => '',
-        default => $::cassandra_agents_ssl_keystore_password,
-    }
-    $agents_ec2_metadata_api_host = $::cassandra_agents_ec2_metadata_api_host ? {
-        undef   => '169.254.169.254',
-        default => $::cassandra_agents_ec2_metadata_api_host,
-    }
-    $agents_concurrent_agent_requests = $::cassandra_agents_concurrent_agent_requests ? {
-        undef   => '10',
-        default => $::cassandra_agents_concurrent_agent_requests,
-    }
-    $agents_concurrent_settings_requests = $::cassandra_agents_concurrent_settings_requests ? {
-        undef   => '10',
-        default => $::cassandra_agents_concurrent_settings_requests,
-    }
-    $agents_concurrent_snapshot_list_requests = $::cassandra_agents_concurrent_snapshot_list_requests ? {
-        undef   => '1',
-        default => $::cassandra_agents_concurrent_snapshot_list_requests,
-    }
-    $agents_snapshot_wait = $::cassandra_agents_snapshot_wait ? {
-        undef   => '',
-        default => $::cassandra_agents_snapshot_wait,
-    }
-    $agents_remote_backup_region = $::cassandra_agents_remote_backup_region ? {
-        undef   => '',
-        default => $::cassandra_agents_remote_backup_region,
-    }
-    $agents_backup_staging_dir = $::cassandra_agents_backup_staging_dir ? {
-        undef   => '',
-        default => $::cassandra_agents_backup_staging_dir,
-    }
-    $agents_restore_req_update_period = $::cassandra_agents_restore_req_update_period ? {
-        undef   => '',
-        default => $::cassandra_agents_restore_req_update_period,
-    }
     $cassandra_username = $::cassandra_cassandra_username ? {
         undef   => '',
         default => $::cassandra_cassandra_username,
