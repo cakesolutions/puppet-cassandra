@@ -150,7 +150,9 @@ class cassandra::config(
 
       file { "/etc/opscenter/clusters":
           ensure => directory,
-      }
+          owner   => opscenter,
+          group   => opscenter,
+     }
 
       file { "/etc/opscenter/clusters/${cluster_name}.conf":
           ensure  => file,
