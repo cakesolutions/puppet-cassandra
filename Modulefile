@@ -1,5 +1,5 @@
-name         'msimonin-cassandra'
-version      '0.8.1'
+name         'cassandra'
+version      '0.2'
 author       'Jochen Schalanda, Matthieu Simonin'
 license      'Apache 2.0'
 project_page 'https://github.com/msimonin/puppet-cassandra'
