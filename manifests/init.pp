@@ -199,8 +199,8 @@ class cassandra(
     if(!is_integer($agents_concurrent_snapshot_list_requests)) {
         fail('agents_concurrent_snapshot_list_requests must be an integer higher or equal to 0')
     }
-    if(!is_integer($snapshot_threshold)) {
-        fail('snapshot_threshold must be an integer higher or equal to 0')
+    if(!is_integer($snapshot_wait)) {
+        fail('snapshot_wait must be an integer higher or equal to 0')
     }
     validate_string($agents_remote_backup_region)
     validate_string($agents_backup_staging_dir)
