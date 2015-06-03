@@ -293,6 +293,16 @@ class cassandra::params {
         default => $::cassandra_jmx_port,
     }
 
+    $jmx_username = $::cassandra_jmx_username ? {
+        undef   => '',
+        default => $::cassandra_jmx_username,
+    }
+
+    $jmx_password = $::cassandra_jmx_password ? {
+        undef   => '',
+        default => $::cassandra_jmx_password,
+    }
+
     $additional_jvm_opts = $::cassandra_additional_jvm_opts ? {
         undef   => [],
         default => $::cassandra_additional_jvm_opts,
@@ -563,5 +573,20 @@ class cassandra::params {
         undef   => 'True',
         default => $::cassandra_opscenter_authentication_enabled,
     }
-
+    $cassandra_username = $::cassandra_cassandra_username ? {
+        undef   => '',
+        default => $::cassandra_cassandra_username,
+    }
+    $cassandra_password = $::cassandra_cassandra_password ? {
+        undef   => '',
+        default => $::cassandra_cassandra_password,
+    }
+    $cassandra_seed_hosts = $::cassandra_cassandra_seed_hosts ? {
+        undef   => '',
+        default => $::cassandra_cassandra_seed_hosts,
+    }
+    $cassandra_api_port = $::cassandra_cassandra_api_port ? {
+        undef   => '9160',
+        default => $::cassandra_cassandra_api_port,
+    }
 }

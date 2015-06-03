@@ -16,6 +16,8 @@ class cassandra(
     $max_heap_size                                        = $cassandra::params::max_heap_size,
     $heap_newsize                                         = $cassandra::params::heap_newsize,
     $jmx_port                                             = $cassandra::params::jmx_port,
+    $jmx_username                                         = $cassandra::params::jmx_username,
+    $jmx_password                                         = $cassandra::params::jmx_password,
     $additional_jvm_opts                                  = $cassandra::params::additional_jvm_opts,
     $cluster_name                                         = $cassandra::params::cluster_name,
     $listen_address                                       = $cassandra::params::listen_address,
@@ -106,7 +108,10 @@ class cassandra(
     $opscenter_ssl_port                                   = $cassandra::params::opscenter_ssl_port,
     $opscenter_logging_level                              = $cassandra::params::opscenter_logging_level,
     $opscenter_authentication_enabled                     = $cassandra::params::opscenter_authentication_enabled,
-
+    $cassandra_username                                   = $cassandra::params::cassandra_username,
+    $cassandra_password                                   = $cassandra::params::cassandra_password,
+    $cassandra_seed_hosts                                 = $cassandra::params::cassandra_seed_hosts,
+    $cassandra_api_port                                   = $cassandra::params::cassandra_api_port,
 ) inherits cassandra::params {
     # Validate input parameters
     validate_bool($include_repo)
@@ -160,8 +165,17 @@ class cassandra(
     validate_bool($using_opscenter)
     validate_bool($dse_ldap_enabled)
 
+    validate_string($jmx_username)
+    validate_string($jmx_password)
+    validate_string($cassandra_username)
+    validate_string($cassandra_password)
+    validate_string($cassandra_seed_hosts)
+    if(!is_integer($cassandra_api_port)) {
+        fail('cassandra_api_port must be a port number between 1 and 65535')
+    }
+
     if($dse_ldap_enabled) {
-       #Validate the LDAP parameters when $dse_ldap_enabled is true
+        #Validate the LDAP parameters when $dse_ldap_enabled is true
         validate_string($dse_ldap_server_host)
         if(!is_integer($dse_ldap_server_port)) {
             fail('server_port must be a port number between 1 and 65535')
@@ -308,6 +322,8 @@ class cassandra(
         max_heap_size                                       => $max_heap_size,
         heap_newsize                                        => $heap_newsize,
         jmx_port                                            => $jmx_port,
+        jmx_username                                        => $jmx_username,
+        jmx_password                                        => $jmx_password,
         additional_jvm_opts                                 => $additional_jvm_opts,
         cluster_name                                        => $cluster_name,
         start_native_transport                              => $start_native_transport,
@@ -392,7 +408,11 @@ class cassandra(
         opscenter_ssl_certfile                              => $opscenter_ssl_certfile,
         opscenter_ssl_port                                  => $opscenter_ssl_port,
         opscenter_logging_level                             => $opscenter_logging_level,
-        opscenter_authentication_enabled                    => $opscenter_authentication_enabled
+        opscenter_authentication_enabled                    => $opscenter_authentication_enabled,
+        cassandra_username                                  => $cassandra_username,
+        cassandra_password                                  => $cassandra_password,
+        cassandra_seed_hosts                                => $cassandra_seed_hosts,
+        cassandra_api_port                                  => $cassandra_api_port,
     }
 
 
