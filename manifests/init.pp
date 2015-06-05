@@ -112,6 +112,8 @@ class cassandra(
     $cassandra_password                                   = $cassandra::params::cassandra_password,
     $cassandra_seed_hosts                                 = $cassandra::params::cassandra_seed_hosts,
     $cassandra_api_port                                   = $cassandra::params::cassandra_api_port,
+    $datastax_agent_additional_jvm_opts                   = $datastax_agent_additional_jvm_opts,
+    $datastax_agent_address_stomp_interface               = $datastax_agent_address_stomp_interface,
 ) inherits cassandra::params {
     # Validate input parameters
     validate_bool($include_repo)
@@ -172,6 +174,11 @@ class cassandra(
     validate_string($cassandra_seed_hosts)
     if(!is_integer($cassandra_api_port)) {
         fail('cassandra_api_port must be a port number between 1 and 65535')
+    }
+
+    validate_string($datastax_agent_additional_jvm_opts)
+    if(!is_ip_address($datastax_agent_address_stomp_interface)) {
+        fail('datastax_agent_address_stomp_interface must be an IP address')
     }
 
     if($dse_ldap_enabled) {
@@ -413,6 +420,8 @@ class cassandra(
         cassandra_password                                  => $cassandra_password,
         cassandra_seed_hosts                                => $cassandra_seed_hosts,
         cassandra_api_port                                  => $cassandra_api_port,
+        datastax_agent_additional_jvm_opts                  => $datastax_agent_additional_jvm_opts,
+        datastax_agent_address_stomp_interface              => $datastax_agent_address_stomp_interface,
     }
 
 
