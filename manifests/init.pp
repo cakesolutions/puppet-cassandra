@@ -176,7 +176,7 @@ class cassandra(
         fail('cassandra_api_port must be a port number between 1 and 65535')
     }
 
-    validate_string($datastax_agent_additional_jvm_opts)
+    validate_array($datastax_agent_additional_jvm_opts)
     if(!is_ip_address($datastax_agent_address_stomp_interface)) {
         fail('datastax_agent_address_stomp_interface must be an IP address')
     }
