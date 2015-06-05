@@ -142,7 +142,6 @@ class cassandra::config(
   
       file { "/var/lib/datastax-agent/conf/address.yaml":
           ensure  => file,
-          owner   => cassandra,
           content => template("${module_name}/address.yaml.erb"),
       }
   }
