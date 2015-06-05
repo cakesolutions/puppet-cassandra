@@ -95,6 +95,8 @@ class cassandra::config(
     $cassandra_password,
     $cassandra_seed_hosts,
     $cassandra_api_port,
+    $datastax_agent_additional_jvm_opts,
+    $datastax_agent_address_stomp_interface,
 ) {
     group { 'cassandra':
         ensure  => present,
@@ -127,11 +129,23 @@ class cassandra::config(
     }
 
     if($using_dse) {
+
       file { "${dse_config_path}/dse.yaml":
           ensure  => file,
           content => template("${module_name}/dse.yaml.erb"),
       }
-    }
+ 
+      file { "/etc/datastax-agent/datastax-agent-env.sh":
+          ensure  => file,
+          content => template("${module_name}/datastax-agent-env.sh.erb"),
+      }
+  
+      file { "/var/lib/datastax-agent/conf/address.yaml":
+          ensure  => file,
+          owner   => cassandra,
+          content => template("${module_name}/address.yaml.erb"),
+      }
+  }
 
     if(($dse_audit_logging_enabled) and ($dse_audit_logger=="Log4JAuditWriter")) {
       file { "${dse_config_path}/cassandra/log4j-server.properties":

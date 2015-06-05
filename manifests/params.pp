@@ -589,4 +589,12 @@ class cassandra::params {
         undef   => '9160',
         default => $::cassandra_cassandra_api_port,
     }
+    $datastax_agent_additional_jvm_opts = $::cassandra_datastax_agent_additional_jvm_opts ? {
+        undef   => '',
+        default => $::cassandra_datastax_agent_additional_jvm_opts,
+    }
+    $datastax_agent_address_stomp_interface = $::cassandra_datastax_agent_address_stomp_interface ? {
+        undef   => '',
+        default => $::cassandra_datastax_agent_address_stomp_interface,
+    }
 }
