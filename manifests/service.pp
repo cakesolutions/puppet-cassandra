@@ -23,6 +23,12 @@ class cassandra::service(
         subscribe  => Class['cassandra::config'],
         require    => Class['cassandra::config'],
       }
+      service { 'datastax-agent':
+        ensure     => stopped,
+        enable     => false,
+        hasstatus  => true,
+        hasrestart => true,
+      }
     }
 
 }
