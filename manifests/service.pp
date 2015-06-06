@@ -6,12 +6,21 @@ class cassandra::service(
   $opscenter_service_ensure
 ) {
     service { $cassandra::service_name:
-        ensure     => $service_ensure,
-        enable     => $service_enable,
-        hasstatus  => true,
-        hasrestart => true,
-        subscribe  => Class['cassandra::config'],
-        require    => Class['cassandra::config'],
+      ensure     => $service_ensure,
+      enable     => $service_enable,
+      hasstatus  => true,
+      hasrestart => true,
+      subscribe  => Class['cassandra::config'],
+      require    => Class['cassandra::config'],
+    }
+
+    service { 'datastax-agent':
+      ensure     => $service_ensure,
+      enable     => $service_enable,
+      hasstatus  => true,
+      hasrestart => true,
+      subscribe  => Class['cassandra::config'],
+      require    => Class['cassandra::config'],
     }
 
     if($using_opscenter) {
@@ -22,12 +31,6 @@ class cassandra::service(
         hasrestart => true,
         subscribe  => Class['cassandra::config'],
         require    => Class['cassandra::config'],
-      }
-      service { 'datastax-agent':
-        ensure     => stopped,
-        enable     => false,
-        hasstatus  => true,
-        hasrestart => true,
       }
     }
 
