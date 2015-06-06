@@ -138,11 +138,13 @@ class cassandra::config(
       file { "/etc/datastax-agent/datastax-agent-env.sh":
           ensure  => file,
           content => template("${module_name}/datastax-agent-env.sh.erb"),
+          notify  => Service['datastax-agent'],
       }
   
       file { "/var/lib/datastax-agent/conf/address.yaml":
           ensure  => file,
           content => template("${module_name}/address.yaml.erb"),
+          notify  => Service['datastax-agent'],
       }
   }
 
