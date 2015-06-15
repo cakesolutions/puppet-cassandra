@@ -338,6 +338,11 @@ class cassandra::params {
         default => $::cassandra_rpc_address,
     }
 
+    $broadcast_rpc_address = $::cassandra_broadcast_rpc_address ? {
+        undef   => '',
+        default => $::cassandra_broadcast_rpc_address,
+    }
+
     $rpc_port = $::cassandra_rpc_port ? {
         undef   => 9160,
         default => $::cassandra_rpc_port,
