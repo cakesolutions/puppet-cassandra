@@ -304,14 +304,30 @@ audit_logging_options:
   # Comma separated list of audit event categories to be included or excluded from the audit log.
   # Categories are: QUERY, DML, DDL, DCL, AUTH, ADMIN
   # Specify either included or excluded categories. Specifying both is an error
+<%if @dse_audit_included_categories !="" -%>
+  included_categories: <%= @dse_audit_included_categories %>
+<% else %>
   # included_categories:
+<% end -%>
+<%if @dse_audit_excluded_categories !="" -%>
+  excluded_categories: <%= @dse_audit_excluded_categories %>
+<% else %>
   # excluded_categories:
-  
+<% end -%>
+
   # Optional:
   # Comma separated list of keyspaces to be included or excluded from the audit log.
   # Specify either included or excluded keyspaces. Specifying both is an error
+<%if @dse_audit_included_keyspaces !="" -%>
+  included_keyspaces: <%= @dse_audit_included_keyspaces %>
+<% else %>
   # included_keyspaces:
+<% end -%>
+<%if @dse_audit_excluded_keyspaces !="" -%>
+  excluded_keyspaces: <%= @dse_audit_excluded_keyspaces %>
+<% else %>
   # excluded_keyspaces:
+<% end -%>
 
   # The amount of time, in hours, audit events are retained by supporting loggers
   # Currently, only the CassandraAuditWriter supports retention time

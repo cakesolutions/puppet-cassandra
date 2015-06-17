@@ -104,50 +104,25 @@ class cassandra::params {
         default => $::cassandra_dse_audit_logger
     }
 
-     $dse_audit_log4j_logger_dataaudit = $::cassandra_dse_audit_log4j_logger_dataaudit ? {
+    $dse_audit_included_categories = $::cassandra_dse_audit_included_categories ? {
         undef   => '',
-        default => $::cassandra_dse_audit_log4j_logger_dataaudit
+        default => $::cassandra_dse_audit_included_categories
     }
 
-    $dse_audit_log4j_additivity_dataaudit = $::cassandra_dse_audit_log4j_additivity_dataaudit ? {
-        undef   => false,
-        default => $::cassandra_dse_audit_log4j_additivity_dataaudit
+    $dse_audit_excluded_categories = $::cassandra_dse_audit_excluded_categories ? {
+        undef   => '',
+        default => $::cassandra_dse_audit_excluded_categories
     }
 
-     $dse_audit_log4j_appender_a = $::cassandra_dse_audit_log4j_appender_a ? {
+    $dse_audit_included_keyspaces = $::cassandra_dse_audit_included_keyspaces ? {
         undef   => '',
-        default => $::cassandra_dse_audit_log4j_appender_a
+        default => $::cassandra_dse_audit_included_keyspaces
     }
 
-     $dse_audit_log4j_appender_a_file = $::cassandra_dse_audit_log4j_appender_a_file ? {
+    $dse_audit_excluded_keyspaces = $::cassandra_dse_audit_excluded_keyspaces ? {
         undef   => '',
-        default => $::cassandra_dse_audit_log4j_appender_a_file
+        default => $::cassandra_dse_audit_excluded_keyspaces
     }
-
-     $dse_audit_log4j_appender_a_bufferedio = $::cassandra_dse_audit_log4j_appender_a_bufferedio ? {
-        undef   => true,
-        default => $::cassandra_dse_audit_log4j_appender_a_bufferedio
-    }
-
-     $dse_audit_log4j_appender_a_maxfilesize = $::cassandra_dse_audit_log4j_appender_a_maxfilesize ? {
-        undef   => '',
-        default => $::cassandra_dse_audit_log4j_appender_a_maxfilesize
-     }
-
-     $dse_audit_log4j_appender_a_maxbackupindex = $::cassandra_dse_audit_log4j_appender_a_maxbackupindex ? {
-        undef   => '',
-        default => $::cassandra_dse_audit_log4j_appender_a_maxbackupindex
-    }
-
-     $dse_audit_log4j_appender_a_layout = $::cassandra_dse_audit_log4j_appender_a_layout ? {
-        undef   => '',
-        default => $::cassandra_dse_audit_log4j_appender_a_layout
-    }
-
-     $dse_audit_log4j_appender_a_layout_conversionpattern = $::cassandra_dse_audit_log4j_appender_a_layout_conversionpattern ? {
-        undef   => '',
-        default => $::cassandra_dse_audit_log4j_appender_a_layout_conversionpattern
-     }
 
     $include_repo = $::cassandra_include_repo ? {
         undef   => true,

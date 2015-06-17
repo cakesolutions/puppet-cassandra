@@ -88,15 +88,10 @@ class cassandra(
     $dse_ldap_connection_pool_max_idle                    = $cassandra::params::dse_ldap_connection_pool_max_idle,
     $dse_audit_logging_enabled                            = $cassandra::params::dse_audit_logging_enabled,
     $dse_audit_logger                                     = $cassandra::params::dse_audit_logger,
-    $dse_audit_log4j_logger_dataaudit                     = $cassandra::params::log4j_logger_dataaudit,
-    $dse_audit_log4j_additivity_dataaudit                 = $cassandra::params::dse_audit_log4j_additivity_dataaudit,
-    $dse_audit_log4j_appender_a                           = $cassandra::params::dse_audit_log4j_appender_a,
-    $dse_audit_log4j_appender_a_file                      = $cassandra::params::dse_audit_log4j_appender_a_file,
-    $dse_audit_log4j_appender_a_bufferedio                = $cassandra::params::dse_audit_log4j_appender_a_bufferedio,
-    $dse_audit_log4j_appender_a_maxfilesize               = $cassandra::params::dse_audit_log4j_appender_a_maxfilesize,
-    $dse_audit_log4j_appender_a_maxbackupindex            = $cassandra::params::dse_audit_log4j_appender_a_maxbackupindex,
-    $dse_audit_log4j_appender_a_layout                    = $cassandra::params::dse_audit_log4j_appender_a_layout,
-    $dse_audit_log4j_appender_a_layout_conversionpattern  = $cassandra::params::dse_audit_log4j_appender_a_layout_conversionpattern,
+    $dse_audit_included_categories                        = $cassandra::params::dse_audit_included_categories,
+    $dse_audit_excluded_categories                        = $cassandra::params::dse_audit_excluded_categories,
+    $dse_audit_included_keyspaces                         = $cassandra::params::dse_audit_included_keyspaces,
+    $dse_audit_excluded_keyspaces                         = $cassandra::params::dse_audit_excluded_keyspaces,
     $using_opscenter                                      = $cassandra::params::using_opscenter,
     $opscenter_service_enable                             = $cassandra::params::opscenter_service_enable,
     $opscenter_service_ensure                             = $cassandra::params::opscenter_service_ensure,
@@ -217,17 +212,10 @@ class cassandra(
     validate_bool($dse_audit_logging_enabled)
     if($dse_audit_logging_enabled) {
         validate_string($dse_audit_logger)
-        validate_string($dse_audit_log4j_logger_dataaudit)
-        validate_bool($dse_audit_log4j_additivity_dataaudit)
-        validate_string($dse_audit_log4j_appender_a)
-        validate_string($dse_audit_log4j_appender_a_file)
-        validate_bool($dse_audit_log4j_appender_a_bufferedio)
-        validate_string($dse_audit_log4j_appender_a_maxfilesize)
-        if(!is_integer($dse_audit_log4j_appender_a_maxbackupindex)) {
-            fail('dse_audit_log4j_appender_a_maxbackupindex must be an integer')
-        }
-        validate_string($dse_audit_log4j_appender_a_layout)
-        validate_string($dse_audit_log4j_appender_a_layout_conversionpattern)
+        validate_string($dse_audit_included_categories)
+        validate_string($dse_audit_excluded_categories)
+        validate_string($dse_audit_included_keyspaces)
+        validate_string($dse_audit_excluded_keyspaces)
     }
 
     validate_bool($opscenter_ssl_enabled)
@@ -404,15 +392,10 @@ class cassandra(
         dse_ldap_connection_pool_max_idle                   => $dse_ldap_connection_pool_max_idle,
         dse_audit_logging_enabled                           => $dse_audit_logging_enabled,
         dse_audit_logger                                    => $dse_audit_logger,
-        dse_audit_log4j_logger_dataaudit                    => $log4j_logger_dataaudit,
-        dse_audit_log4j_additivity_dataaudit                => $dse_audit_log4j_additivity_dataaudit,
-        dse_audit_log4j_appender_a                          => $dse_audit_log4j_appender_a,
-        dse_audit_log4j_appender_a_file                     => $dse_audit_log4j_appender_a_file,
-        dse_audit_log4j_appender_a_bufferedio               => $dse_audit_log4j_appender_a_bufferedio,
-        dse_audit_log4j_appender_a_maxfilesize              => $dse_audit_log4j_appender_a_maxfilesize,
-        dse_audit_log4j_appender_a_maxbackupindex           => $dse_audit_log4j_appender_a_maxbackupindex,
-        dse_audit_log4j_appender_a_layout                   => $dse_audit_log4j_appender_a_layout,
-        dse_audit_log4j_appender_a_layout_conversionpattern => $dse_audit_log4j_appender_a_layout_conversionpattern,
+        dse_audit_included_categories                       => $dse_audit_included_categories,
+        dse_audit_excluded_categories                       => $dse_audit_excluded_categories,
+        dse_audit_included_keyspaces                        => $dse_audit_included_keyspaces,
+        dse_audit_excluded_keyspaces                        => $dse_audit_excluded_keyspaces,
         using_opscenter                                     => $using_opscenter,
         opscenter_port                                      => $opscenter_port,
         opscenter_interface                                 => $opscenter_interface,
