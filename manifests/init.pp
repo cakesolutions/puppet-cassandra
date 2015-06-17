@@ -162,7 +162,7 @@ class cassandra(
     validate_string($server_encryption_truststore)
     validate_string($server_encryption_truststore_password)
     validate_array($server_encryption_cipher_suites)
-    validate_string($cserver_encryption_protocol)
+    validate_string($server_encryption_protocol)
     validate_string($server_encryption_algorithm)
     validate_string($server_encryption_store_type)
 
