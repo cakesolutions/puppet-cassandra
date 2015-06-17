@@ -637,17 +637,21 @@ server_encryption_options:
     internode_encryption: <%= @server_encryption_internode %>
     keystore: <%= @server_encryption_keystore %>
     keystore_password: <%= @server_encryption_keystore_password %>
+    require_client_auth: <%= @server_encryption_require_auth %>
+    # Set trustore and truststore_password if require_client_auth is true
     truststore: <%= @server_encryption_truststore %>
     truststore_password: <%= @server_encryption_truststore_password %>
 <% unless @server_encryption_cipher_suites.nil? || @server_encryption_cipher_suites.empty? %>
     cipher_suites: [<%= @server_encryption_cipher_suites.join(',') %>]
 <% end %>
+    protocol: <%= @server_encryption_protocol %>
+    algorithm: <%= @server_encryption_algorithm %>
+    store_type: <%= @server_encryption_store_type %>
     # More advanced defaults below:
     # protocol: TLS
     # algorithm: SunX509
     # store_type: JKS
     # cipher_suites: [TLS_RSA_WITH_AES_128_CBC_SHA,TLS_RSA_WITH_AES_256_CBC_SHA]
-    # require_client_auth: false
 
 # enable or disable client/server encryption.
 client_encryption_options:
@@ -661,6 +665,9 @@ client_encryption_options:
 <% unless @client_encryption_cipher_suites.nil? || @client_encryption_cipher_suites.empty? %>
     cipher_suites: [<%= @client_encryption_cipher_suites.join(',') %>]
 <% end %>
+    protocol: <%= @client_encryption_protocol %>
+    algorithm: <%= @client_encryption_algorithm %>
+    store_type: <%= @client_encryption_store_type %>
     # More advanced defaults below:
     # protocol: TLS
     # algorithm: SunX509

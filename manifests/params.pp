@@ -518,13 +518,25 @@ class cassandra::params {
         undef   => [],
         default => $::cassandra_server_encryption_cipher_suites,
     }
+    $server_encryption_require_auth = $::cassandra_server_encryption_require_auth ? {
+        undef   => false,
+        default => $::cassandra_server_encryption_require_auth,
+    }
+    $server_encryption_protocol = $::cassandra_server_encryption_protocol ? {
+        undef   => 'TLS',
+        default => $::cassandra_server_encryption_protocol,
+    }
+    $server_encryption_algorithm = $::cassandra_server_encryption_algorithm ? {
+        undef   => 'SunX509',
+        default => $::cassandra_server_encryption_algorithm,
+    }
+    $server_encryption_store_type = $::cassandra_server_encryption_store_type ? {
+        undef   => 'JKS',
+        default => $::cassandra_server_encryption_store_type,
+    }
     $client_encryption_enabled = $::cassandra_client_encryption_enabled ? {
         undef   => false,
         default => $::cassandra_client_encryption_enabled,
-    }
-    $client_encryption_require_auth = $::cassandra_client_encryption_require_auth ? {
-        undef   => false,
-        default => $::cassandra_client_encryption_require_auth,
     }
     $client_encryption_keystore = $::cassandra_client_encryption_keystore ? {
         undef   => '',
@@ -545,6 +557,22 @@ class cassandra::params {
     $client_encryption_cipher_suites = $::cassandra_client_encryption_cipher_suites ? {
         undef   => [],
         default => $::cassandra_client_encryption_cipher_suites,
+    }
+    $client_encryption_require_auth = $::cassandra_client_encryption_require_auth ? {
+        undef   => false,
+        default => $::cassandra_client_encryption_require_auth,
+    }
+    $client_encryption_protocol = $::cassandra_client_encryption_protocol ? {
+        undef   => 'TLS',
+        default => $::cassandra_client_encryption_protocol,
+    }
+    $client_encryption_algorithm = $::cassandra_client_encryption_algorithm ? {
+        undef   => 'SunX509',
+        default => $::cassandra_client_encryption_algorithm,
+    }
+    $client_encryption_store_type = $::cassandra_client_encryption_store_type ? {
+        undef   => 'JKS',
+        default => $::cassandra_client_encryption_store_type,
     }
     $opscenter_port = $::cassandra_opscenter_port ? {
         undef   => '8888',

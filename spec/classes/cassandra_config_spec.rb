@@ -53,6 +53,9 @@ describe 'cassandra::config' do
       :server_encryption_truststore           => 'foo',
       :server_encryption_truststore_password  => 'foo',
       :server_encryption_cipher_suites        => ['foo'],
+      :server_encryption_protocol             => 'TLS',
+      :server_encryption_algorithm            => 'SunX509',
+      :server_encryption_store_type           => 'JKS',
       :client_encryption_enabled              => false,
       :client_encryption_keystore             => 'foo',
       :client_encryption_keystore_password    => 'foo',
@@ -60,6 +63,9 @@ describe 'cassandra::config' do
       :client_encryption_truststore           => 'foo',
       :client_encryption_truststore_password  => 'foo',
       :client_encryption_cipher_suites        => [],
+      :client_encryption_protocol             => 'TLS',
+      :client_encryption_algorithm            => 'SunX509',
+      :client_encryption_store_type           => 'JKS',
     }
   end
 
