@@ -60,6 +60,9 @@ class cassandra(
     $server_encryption_truststore                         = $cassandra::params::server_encryption_truststore,
     $server_encryption_truststore_password                = $cassandra::params::server_encryption_truststore_password,
     $server_encryption_cipher_suites                      = $cassandra::params::server_encryption_cipher_suites,
+    $server_encryption_protocol                           = $cassandra::params::server_encryption_protocol,
+    $server_encryption_algorithm                          = $cassandra::params::server_encryption_algorithm,
+    $server_encryption_store_type                         = $cassandra::params::server_encryption_store_type,
     $client_encryption_enabled                            = $cassandra::params::client_encryption_enabled,
     $client_encryption_require_auth                       = $cassandra::params::client_encryption_require_auth,
     $client_encryption_keystore                           = $cassandra::params::client_encryption_keystore,
@@ -67,6 +70,9 @@ class cassandra(
     $client_encryption_truststore                         = $cassandra::params::client_encryption_truststore,
     $client_encryption_truststore_password                = $cassandra::params::client_encryption_truststore_password,
     $client_encryption_cipher_suites                      = $cassandra::params::client_encryption_cipher_suites,
+    $client_encryption_protocol                           = $cassandra::params::client_encryption_protocol,
+    $client_encryption_algorithm                          = $cassandra::params::client_encryption_algorithm,
+    $client_encryption_store_type                         = $cassandra::params::client_encryption_store_type,
     $using_dse                                            = $cassandra::params::using_dse,
     $dse_config_path                                      = $cassandra::params::dse_config_path,
     $dse_ldap_enabled                                     = $cassandra::params::dse_ldap_enabled,
@@ -156,6 +162,9 @@ class cassandra(
     validate_string($server_encryption_truststore)
     validate_string($server_encryption_truststore_password)
     validate_array($server_encryption_cipher_suites)
+    validate_string($cserver_encryption_protocol)
+    validate_string($server_encryption_algorithm)
+    validate_string($server_encryption_store_type)
 
     validate_bool($client_encryption_enabled)
     validate_bool($client_encryption_require_auth)
@@ -164,6 +173,9 @@ class cassandra(
     validate_string($client_encryption_truststore)
     validate_string($client_encryption_truststore_password)
     validate_array($client_encryption_cipher_suites)
+    validate_string($client_encryption_protocol)
+    validate_string($client_encryption_algorithm)
+    validate_string($client_encryption_store_type)
     validate_bool($using_dse)
     validate_bool($using_opscenter)
     validate_bool($dse_ldap_enabled)
