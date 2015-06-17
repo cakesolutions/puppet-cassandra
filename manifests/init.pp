@@ -103,6 +103,10 @@ class cassandra(
     $dse_audit_log4j_appender_a_maxbackupindex            = $cassandra::params::dse_audit_log4j_appender_a_maxbackupindex,
     $dse_audit_log4j_appender_a_layout                    = $cassandra::params::dse_audit_log4j_appender_a_layout,
     $dse_audit_log4j_appender_a_layout_conversionpattern  = $cassandra::params::dse_audit_log4j_appender_a_layout_conversionpattern,
+    $dse_audit_included_categories                        = $cassandra::params::dse_audit_included_categories,
+    $dse_audit_excluded_categories                        = $cassandra::params::dse_audit_excluded_categories,
+    $dse_audit_included_keyspaces                         = $cassandra::params::dse_audit_included_keyspaces,
+    $dse_audit_excluded_keyspaces                         = $cassandra::params::dse_audit_excluded_keyspaces,
     $using_opscenter                                      = $cassandra::params::using_opscenter,
     $opscenter_service_enable                             = $cassandra::params::opscenter_service_enable,
     $opscenter_service_ensure                             = $cassandra::params::opscenter_service_ensure,
@@ -229,17 +233,24 @@ class cassandra(
     validate_bool($dse_audit_logging_enabled)
     if($dse_audit_logging_enabled) {
         validate_string($dse_audit_logger)
-        validate_string($dse_audit_log4j_logger_dataaudit)
-        validate_bool($dse_audit_log4j_additivity_dataaudit)
-        validate_string($dse_audit_log4j_appender_a)
-        validate_string($dse_audit_log4j_appender_a_file)
-        validate_bool($dse_audit_log4j_appender_a_bufferedio)
-        validate_string($dse_audit_log4j_appender_a_maxfilesize)
-        if(!is_integer($dse_audit_log4j_appender_a_maxbackupindex)) {
-            fail('dse_audit_log4j_appender_a_maxbackupindex must be an integer')
+    
+        if($dse_audit_logger == 'Log4JAuditWriter'){
+            validate_string($dse_audit_log4j_logger_dataaudit)
+            validate_bool($dse_audit_log4j_additivity_dataaudit)
+            validate_string($dse_audit_log4j_appender_a)
+            validate_string($dse_audit_log4j_appender_a_file)
+            validate_bool($dse_audit_log4j_appender_a_bufferedio)
+            validate_string($dse_audit_log4j_appender_a_maxfilesize)
+            if(!is_integer($dse_audit_log4j_appender_a_maxbackupindex)) {
+                fail('dse_audit_log4j_appender_a_maxbackupindex must be an integer')
+            }
+            validate_string($dse_audit_log4j_appender_a_layout)
+            validate_string($dse_audit_log4j_appender_a_layout_conversionpattern)
         }
-        validate_string($dse_audit_log4j_appender_a_layout)
-        validate_string($dse_audit_log4j_appender_a_layout_conversionpattern)
+        validate_string($dse_audit_included_categories)
+        validate_string($dse_audit_excluded_categories)
+        validate_string($dse_audit_included_keyspaces)
+        validate_string($dse_audit_excluded_keyspaces) 
     }
 
     validate_bool($opscenter_ssl_enabled)
@@ -425,6 +436,10 @@ class cassandra(
         dse_audit_log4j_appender_a_maxbackupindex           => $dse_audit_log4j_appender_a_maxbackupindex,
         dse_audit_log4j_appender_a_layout                   => $dse_audit_log4j_appender_a_layout,
         dse_audit_log4j_appender_a_layout_conversionpattern => $dse_audit_log4j_appender_a_layout_conversionpattern,
+        dse_audit_included_categories                       => $dse_audit_included_categories,
+        dse_audit_excluded_categories                       => $dse_audit_excluded_categories,
+        dse_audit_included_keyspaces                        => $dse_audit_included_keyspaces,
+        dse_audit_excluded_keyspaces                        => $dse_audit_excluded_keyspaces,
         using_opscenter                                     => $using_opscenter,
         opscenter_port                                      => $opscenter_port,
         opscenter_interface                                 => $opscenter_interface,
