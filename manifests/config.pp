@@ -74,15 +74,10 @@ class cassandra::config(
     $dse_ldap_connection_pool_max_idle,
     $dse_audit_logging_enabled,
     $dse_audit_logger,
-    $dse_audit_log4j_logger_dataaudit,
-    $dse_audit_log4j_additivity_dataaudit,
-    $dse_audit_log4j_appender_a,
-    $dse_audit_log4j_appender_a_file,
-    $dse_audit_log4j_appender_a_bufferedio,
-    $dse_audit_log4j_appender_a_maxfilesize,
-    $dse_audit_log4j_appender_a_maxbackupindex,
-    $dse_audit_log4j_appender_a_layout,
-    $dse_audit_log4j_appender_a_layout_conversionpattern,
+    $dse_audit_included_categories,
+    $dse_audit_excluded_categories,
+    $dse_audit_included_keyspaces,
+    $dse_audit_excluded_keyspaces,
     $using_opscenter,
     $opscenter_port,
     $opscenter_interface,
@@ -147,14 +142,7 @@ class cassandra::config(
           content => template("${module_name}/address.yaml.erb"),
           notify  => Service['datastax-agent'],
       }
-  }
-
-    if(($dse_audit_logging_enabled) and ($dse_audit_logger=="Log4JAuditWriter")) {
-      file { "${dse_config_path}/cassandra/log4j-server.properties":
-          ensure  => file,
-          content => template("${module_name}/log4j-server.properties.erb"),
-      }
-    }
+   }
 
     if($using_opscenter) {
       file { "/etc/opscenter/opscenterd.conf":
