@@ -104,6 +104,26 @@ class cassandra::params {
         default => $::cassandra_dse_audit_logger
     }
 
+    $dse_audit_included_categories = $::cassandra_dse_audit_included_categories ? {
+        undef   => '',
+        default => $::cassandra_dse_audit_included_categories
+    }
+
+    $dse_audit_excluded_categories = $::cassandra_dse_audit_excluded_categories ? {
+        undef   => '',
+        default => $::cassandra_dse_audit_excluded_categories
+    }
+
+    $dse_audit_included_keyspaces = $::cassandra_dse_audit_included_keyspaces ? {
+        undef   => '',
+        default => $::cassandra_dse_audit_included_keyspaces
+    }
+
+    $dse_audit_excluded_keyspaces = $::cassandra_dse_audit_excluded_keyspaces ? {
+        undef   => '',
+        default => $::cassandra_dse_audit_excluded_keyspaces
+    }
+
      $dse_audit_log4j_logger_dataaudit = $::cassandra_dse_audit_log4j_logger_dataaudit ? {
         undef   => '',
         default => $::cassandra_dse_audit_log4j_logger_dataaudit
