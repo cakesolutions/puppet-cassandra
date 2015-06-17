@@ -514,10 +514,6 @@ class cassandra::params {
         undef   => 'none',
         default => $::cassandra_server_encryption_internode,
     }
-    $server_encryption_require_auth = $::cassandra_server_encryption_require_auth ? {
-        undef   => false,
-        default => $::cassandra_server_encryption_require_auth,
-    }
     $server_encryption_keystore = $::cassandra_server_encryption_keystore ? {
         undef   => '',
         default => $::cassandra_server_encryption_keystore,
