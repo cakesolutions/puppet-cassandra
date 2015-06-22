@@ -121,6 +121,8 @@ class cassandra(
     $opscenter_authentication_enabled                     = $cassandra::params::opscenter_authentication_enabled,
     $cassandra_username                                   = $cassandra::params::cassandra_username,
     $cassandra_password                                   = $cassandra::params::cassandra_password,
+    $storage_cassandra_username                           = $cassandra::params::storage_cassandra_username,
+    $storage_cassandra_password                           = $cassandra::params::storage_cassandra_password,
     $cassandra_seed_hosts                                 = $cassandra::params::cassandra_seed_hosts,
     $cassandra_api_port                                   = $cassandra::params::cassandra_api_port,
     $datastax_agent_additional_jvm_opts                   = $datastax_agent_additional_jvm_opts,
@@ -188,6 +190,8 @@ class cassandra(
     validate_string($jmx_password)
     validate_string($cassandra_username)
     validate_string($cassandra_password)
+    validate_string($storage_cassandra_username)
+    validate_string($storage_cassandra_password)
     validate_string($cassandra_seed_hosts)
     if(!is_integer($cassandra_api_port)) {
         fail('cassandra_api_port must be a port number between 1 and 65535')
@@ -457,6 +461,8 @@ class cassandra(
         opscenter_authentication_enabled                    => $opscenter_authentication_enabled,
         cassandra_username                                  => $cassandra_username,
         cassandra_password                                  => $cassandra_password,
+        storage_cassandra_username                          => $storage_cassandra_username,
+        storage_cassandra_password                          => $storage_cassandra_password,
         cassandra_seed_hosts                                => $cassandra_seed_hosts,
         cassandra_api_port                                  => $cassandra_api_port,
         datastax_agent_additional_jvm_opts                  => $datastax_agent_additional_jvm_opts,

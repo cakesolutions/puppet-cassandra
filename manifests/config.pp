@@ -104,6 +104,8 @@ class cassandra::config(
     $opscenter_authentication_enabled,
     $cassandra_username,
     $cassandra_password,
+    $storage_cassandra_username,
+    $storage_cassandra_password,
     $cassandra_seed_hosts,
     $cassandra_api_port,
     $datastax_agent_additional_jvm_opts,

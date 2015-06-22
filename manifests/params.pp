@@ -630,6 +630,14 @@ class cassandra::params {
         undef   => '',
         default => $::cassandra_cassandra_password,
     }
+    $storage_cassandra_username = $::cassandra_storage_cassandra_username ? {
+        undef   => '',
+        default => $::cassandra_storage_cassandra_username,
+    }
+    $storage_cassandra_password = $::cassandra_storage_cassandra_password ? {
+        undef   => '',
+        default => $::cassandra_storage_cassandra_password,
+    }
     $cassandra_seed_hosts = $::cassandra_cassandra_seed_hosts ? {
         undef   => '',
         default => $::cassandra_cassandra_seed_hosts,
