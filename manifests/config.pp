@@ -109,7 +109,7 @@ class cassandra::config(
     $cassandra_seed_hosts,
     $cassandra_api_port,
     $datastax_agent_additional_jvm_opts,
-    $datastax_agent_address_stomp_interface,
+    $datastax_agent_stomp_interface,
 ) {
     group { 'cassandra':
         ensure  => present,

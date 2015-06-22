@@ -650,8 +650,8 @@ class cassandra::params {
         undef   => '',
         default => $::cassandra_datastax_agent_additional_jvm_opts,
     }
-    $datastax_agent_address_stomp_interface = $::cassandra_datastax_agent_address_stomp_interface ? {
+    $datastax_agent_stomp_interface = $::cassandra_datastax_agent_stomp_interface ? {
         undef   => '',
-        default => $::cassandra_datastax_agent_address_stomp_interface,
+        default => $::cassandra_datastax_agent_stomp_interface,
     }
 }
