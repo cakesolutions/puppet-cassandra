@@ -1,5 +1,5 @@
 name         'cassandra'
-version      '0.2.2'
+version      '0.2.5'
 author       'Jochen Schalanda, Matthieu Simonin, Cake Solutions Ltd.'
 license      'Apache 2.0'
 project_page 'https://github.com/cakesolutions/puppet-cassandra'
