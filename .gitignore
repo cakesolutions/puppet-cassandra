@@ -1,5 +1,11 @@
 pkg
 .vagrant
 .gitreview
-
 Gemfile.lock
+
+kitchenci/.tmp/
+kitchenci/modules/
+kitchenci/*.lock
+kitchenci/.ruby*
+kitchenci/.kitchen
+kitchenci/.librarian

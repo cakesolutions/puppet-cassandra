@@ -1,0 +1,167 @@
+---
+awscli::version: '1.7.34'
+appdynamics::source_url: 'https://s3-eu-west-1.amazonaws.com/cakesolutions-public-downloads'
+appdynamics::version: '4.0.7.0'
+appdynamics::install_location: '/opt/appdynamics_agent'
+appdynamics::controller_host: 'cakesolutions720.saas.appdynamics.com'
+appdynamics::controller_port: '443'
+appdynamics::controller_ssl_enabled: 'true'
+appdynamics::account_name: 'CakeSolutions720'
+appdynamics::account_access_key: '2u3xgvl0w2zd'
+appdynamics::application_name: 'ODS'
+appdynamics::tier_name: 'undef'
+appdynamics::service_ensure: 'running'
+appdynamics::service_enable: 'true'
+appdynamics::java_opts: '-Dappdynamics.agent.maxMetrics=10000'
+profile::aws_manager::install::github_source: 'git@github.com:cakesolutions/shopdirect-aws-manager.git'
+profile::aws_manager::install::version: '0.1.0'
+profile::aws_manager::install::ruby_version: '2.1.5'
+timezone::timezone: "Europe/London"
+timezone::region: "Europe"
+timezone::locality: "London"
+selinux::mode: "enforcing"
+vim::opt_misc: [ai, shiftwidth=2, tabstop=2, softtabstop=2, expandtab, ruler, hlsearch, incsearch, nu, nuw=1, nocompatible, history=50, bs=indent,eol,start]
+rvm::system_rubies:
+  "%{hiera('profile::aws_manager::install::ruby_version')}": {}
+ntp::servers: [ 'server 0.centos.pool.ntp.org', 'server 1.centos.pool.ntp.org', 'server 2.centos.pool.ntp.org' ]
+limits:
+  '*':
+    nofile:
+      soft: '100000'
+      hard: '100000'
+    memlock:
+      soft: 'unlimited'
+      hard: 'unlimited'
+    as:
+      soft: 'unlimited'
+      hard: 'unlimited'
+  'root':
+    nofile:
+      soft: '100000'
+      hard: '100000'
+    memlock:
+      soft: 'unlimited'
+      hard: 'unlimited'
+    as:
+      soft: 'unlimited'
+      hard: 'unlimited'
+sudo::purge: false
+sudo::configs:
+  'ec2-user':
+    content: 'ec2-user ALL=(ALL) NOPASSWD:ALL'
+    priority: 5
+  'admins':
+    content: '%wheel ALL=(ALL) ALL'
+    priority: 10
+users_cake_sysadmins:
+  'tom.stockton':
+    ensure: 'present'
+    groups: 'wheel'
+    home: '/home/tom.stockton'
+    password: '$1$71dzmhkX$QVRX92u8cZi9V/XvRcJX6/'
+    shell: '/bin/bash'
+    managehome: 'true'
+    ssh_authorized_keys:
+      'tom.stockton.key':
+        type: 'ssh-rsa'
+        key: 'AAAAB3NzaC1yc2EAAAABIwAAAQEArLhCZiBRIXeq0L/6ulEOGvBLQ7F+IfHyXg1ZmbXhBdMUwx1jm+geS9fn9qlp86vgIHzgNknsZqU0GQkXY3Lp2LyddeBxcTxdv9Ysd94pHBs8in3uhK9Uxl+wrJh88BpKqXuIk91u4zGD89b0evujPRKHuWxFCk6wZiEMCpIWCSjeTQPxY9vmdb/ARtRlOaqisBdrkW4Xy+zcVjjTJHrAsi8a+ctGTNhIG0GV0pWOHoFMvIdd74AP774w1Hlv3u9aqlvdOhZzi+nxQZMrkb8/EugSKAPKzpVyu6/FFoGPBshXGI74W6samu5BOYAdL2vP4MR1qVYoLRQ170P3KhWTww=='
+  'cornel.foltea':
+    ensure: 'present'
+    groups: 'wheel'
+    home: '/home/cornel.foltea'
+    password: '$6$U1n.ftpo$x59ldS3XK9LbkbjfGjlccQRca5xfoCbkzsG7rj1UO4cxZfQaUd.joXsoT1075tF3Y3Ftu3j1LYIe1tpP2RlKL1'
+    shell: '/bin/bash'
+    managehome: 'true'
+    ssh_authorized_keys:
+      'cornel.foltea.key':
+        type: 'ssh-rsa'
+        key: 'AAAAB3NzaC1yc2EAAAADAQABAAABAQDEtg4YOVqBRTfeDQQ/x9KQlsNwwzbO0N5u+ppYyG2pR+22FU4u2Rpc+rFdgBRQBCYHOTYb/xGugsLCxBjtne2cg6KmAEXHNAIP3dS8OkQItvHqV3dneHoGfanpk4ZjDY2yHtFnTRZkjQOFq/jnWQvhwtQxopQ9XSE54ghYyePEaDUa/kyZ+FOfA9tYCz+KR2gyPgS3HncFtjsivxABzg6l8d7rG09tb0pGtlNV9O8YRB8lLVZywhYCB/9zPjYsozkK/0oQqsYsB9h+o2gjXyX+0aG9eWxiR3RAVm5GWFcB1wS76/J29ncPvvPyKx9/Ul8KCq/QQtaCWvcz/XDYYEyD'
+  'laura.glasu':
+    ensure: 'present'
+    groups: 'wheel'
+    home: '/home/laura.glasu'
+    password: '$6$VDzdTg4v$FNoRAVRqq0xFwJVfmhXLe6LDzw6Oh5z7DImxq6HcQ.9OBKQ3RMgjsGl2lMJkA5LmndKAKhcH2DOg67Xy8ye/W0'
+    shell: '/bin/bash'
+    managehome: 'true'
+    ssh_authorized_keys:
+      'laura.glasu.key':
+        type: 'ssh-rsa'
+        key: 'AAAAB3NzaC1yc2EAAAADAQABAAABAQDiruo0n715F83bgkmed8nYfrL6qXmMlGtbVkk2OemLt+7gVjKVDKoc0wCDrFK+WYts2n2SfQ1tmGTDgYjCgRd20mDaCttiTXrpyevNdU5eiaT2t77Ce4FQaeOJJUF+ECOf/71wpCe7GupXow84bPSC9yIw5Dwy4NPTzN01ArZXD/+DeZeNfupgGb7Tti+JgsiaqhRZaLUzkN6Za/F/nP7nPwhivgQAtu7obIsQZNPA0ug2REGICwp2ncPH7EIV3qrtzyZO5VUCbwG+WFCKZwBq255e72Sgd1F3cpmLWUWDcaSET37Ao27VV41CXCDQcLNRio1SYtTPuDedVOrsFPoR'
+  'anirvan.chakraborty':
+    ensure: 'present'
+    groups: 'wheel'
+    home: '/home/anirvan.chakraborty'
+    password: '$6$ipisq0tN$ooV.owarjKhVVmB00O0xA8NQbVFC.J/McRkaj8DB/ragmVHKvDR7LURj8Ki1q9r2jH/N0vpbTRZp.v30vjCgm.'
+    shell: '/bin/bash'
+    managehome: 'true'
+    ssh_authorized_keys:
+      'anirvan.chakraborty.key':
+        type: 'ssh-rsa'
+        key: 'AAAAB3NzaC1yc2EAAAADAQABAAABAQCkPjMJ5h/qpglOBcVq22+J9Tcs2SWbepCAzvdHB1lyCwTJNn14NERVx6BDsmdxK9x8sDOaVTRuXFcdcCvjjVzfJD+5aLr0tprfT/YeEnn/2jriepg6p4dPmpGN+usyk/ECVm/VEEQmaD7MsWXCexnj3yVBzPK9ldEtVQshtM15xlqeAzPCgvyIZx3RnV3ZIiM34tHCkWMl/gRBq5c36+Ok8+UXOqPelffSzF12340rtMUbpiZqD7bB6JMNAGZOjimA8IngwVls0lAj58KmqZBXF1OiTgf+K82QzsnezZ05lRr4H4jIEFfSFp7vExQzU1E2xNb95Gjkp9o3CfqJy0TN'
+
+sys::ssh::allowusers: 'anirvan.chakraborty tom.stockton cornel.foltea laura.glasu ec2-user'
+sys::ssh::allowgroups: 'ec2-user wheel'
+
+cassandra::version: "4.7.0-1"
+cassandra::opscenter_version: "5.1.3-1"
+cassandra::using_dse: true
+cassandra::config_path: /etc/dse/cassandra
+cassandra_home: /var/lib/cassandra
+cassandra_home_mode: 755
+cassandra::service_name: "dse"
+cassandra::package_name: "dse-full"
+cassandra::repo_baseurl: "http://auto_cakesolutions.net:T4MAbMsNBvtlSKu@rpm.datastax.com/enterprise"
+cassandra::seeds: [ "%{::seed_a_eni_ip}", "%{::seed_b_eni_ip}", "%{::seed_c_eni_ip}" ]
+cassandra::listen_address: "%{::ipaddress_eth0}"
+cassandra::broadcast_address: "%{hiera('cassandra::listen_address')}"
+cassandra::rpc_address: '0.0.0.0'
+cassandra::broadcast_rpc_address: "%{hiera('cassandra::broadcast_address')}"
+cassandra::cluster_name: 'testCassandra'
+cassandra::endpoint_snitch: "Ec2Snitch"
+cassandra::dse_audit_logging_enabled: true
+cassandra::dse_audit_logger: "SLF4JAuditWriter"
+cassandra::dse_audit_included_categories: "ADMIN, AUTH, QUERY"
+profile::rsyslog::using_rsyslog: false
+profile::rsyslog::server: ""
+profile::rsyslog::port: ""
+profile::rsyslog::cassandra_audit_local: ""
+cassandra::service_enable: "true"
+cassandra::service_ensure: "running"
+cassandra::opscenter_service_enable: "true"
+cassandra::opscenter_service_ensure: "running"
+cassandra::cassandra_seed_hosts: "%{::seed_a_eni_ip},%{::seed_b_eni_ip},%{::seed_c_eni_ip}"
+cassandra::datastax_agent_address_stomp_interface: "%{::opscenter_eni_ip}"
+cassandra::datastax_agent_additional_jvm_opts:
+  - "-Dorg.xerial.snappy.tempdir=/var/lib/datastax-agent/"
+  - "-Djava.io.tmpdir=/var/lib/datastax-agent/"
+cassandra::additional_jvm_opts:
+  - "-Dorg.xerial.snappy.tempdir=/var/lib/cassandra/"
+  - "-Dcom.sun.management.jmxremote.rmi.port=48888"
+  - "-Djava.io.tmpdir=/var/lib/cassandra/"
+  - "-Dconsistent.rangemovement=false"
+profile::ssl_keystores::certs_path: "/etc/dse/certs"
+profile::ssl_keystores::keyalg: RSA
+profile::ssl_keystores::keysize: 2048
+profile::ssl_keystores::dname: "CN=ods.internal,OU=SDG,O=Shop Direct Home Shopping Limited"
+profile::ssl_keystores::keypass: shopdirect
+profile::ssl_keystores::storepass: shopdirect
+profile::ssl_keystores::keystore: localhost.keystore
+profile::ssl_keystores::truststore: localhost.truststore
+profile::ssl_keystores::local_csr: localhost.csr
+profile::ssl_keystores::local_crt: localhost.signed
+profile::ssl_keystores::crt_alias: "%{hiera('cassandra::listen_address')}.crt"
+profile::ssl_keystores::crt_signed_alias: "%{hiera('cassandra::listen_address')}.signed.crt"
+profile::ssl_keystores::validity: 999999
+profile::ssl_keystores::ca_path: /root/ssl
+profile::ssl_keystores::ca_key: clusterCA.key
+profile::ssl_keystores::ca_crt: clusterCA.pem
+profile::ssl_keystores::ca_alias: clusterca.crt
+profile::ssl_keystores::keystore_owner: cassandra
+profile::ssl_keystores::keystore_group: cassandra
+rsyslog::client::log_remote: false
+rsyslog_remote_server_host: ''
+rsyslog_remote_server_port: '514'
+rsyslog_remote_server_protocol: 'tcp'
+rsyslog::server::enable_tcp: false
+rsyslog::server::enable_udp: false
+rsyslog::server::enable_relp: false

@@ -1,0 +1,14 @@
+# Role specific modules
+
+mod "cakesolutions/cassandra",
+  :git => "git@github.com:cakesolutions/puppet-cassandra.git",
+
+mod "cakesolutions/java",
+  :git => "git@github.com:cakesolutions/puppet-java.git",
+  :ref => "0.0.6"
+
+mod "cakesolutions/appdynamics",
+  :git => "git@github.com:cakesolutions/puppet-appdynamics.git",
+  :ref => "0.0.1"
+
+mod "saz/rsyslog", "3.5.1"
