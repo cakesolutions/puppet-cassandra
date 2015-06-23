@@ -175,8 +175,6 @@ class cassandra(
     validate_re("${thread_stack_size}", '^[0-9]+$')
     validate_re($service_enable, '^(true|false)$')
     validate_re($service_ensure, '^(running|stopped)$')
-    validate_re($opscenter_service_enable, '^(true|false)$')
-    validate_re($opscenter_service_ensure, '^(running|stopped)$')
 
     validate_array($additional_jvm_opts)
     validate_array($seeds)
@@ -210,17 +208,38 @@ class cassandra(
     validate_string($jmx_password)
     validate_string($cassandra_username)
     validate_string($cassandra_password)
-    validate_string($storage_cassandra_username)
-    validate_string($storage_cassandra_password)
+
+
     validate_string($cassandra_seed_hosts)
     if(!is_integer($cassandra_api_port)) {
         fail('cassandra_api_port must be a port number between 1 and 65535')
     }
+    validate_string($cassandra_ssl_ca_certs)
+    validate_string($cassandra_ssl_client_key)
+    validate_string($cassandra_ssl_client_pem)
+
+    validate_string($storage_cassandra_username)
+    validate_string($storage_cassandra_password)
+    validate_string($storage_cassandra_seed_hosts)
+    validate_string($storage_cassandra_ssl_ca_certs)
+    validate_string($storage_cassandra_ssl_client_key)
+    validate_string($storage_cassandra_ssl_client_pem)
+
+    validate_string($agent_config_ssl_ca_certs)
+    validate_string($agent_config_ssl_client_key)
+    validate_string($agent_config_ssl_client_pem)
 
     validate_array($datastax_agent_additional_jvm_opts)
     if(!is_ip_address($datastax_agent_stomp_interface)) {
         fail('datastax_agent_stomp_interface must be an IP address')
     }
+    validate_string($datastax_agent_cassandra_conf)
+    validate_re($datastax_agent_use_ssl, '^(0|1)$')
+    validate_string($datastax_agent_ssl_keystore)
+    validate_string($datastax_agent_ssl_keystore_password)
+    validate_string($datastax_agent_ssl_ca_certs)
+    validate_string($datastax_agent_ssl_client_key)
+    validate_string($datastax_agent_ssl_client_pem)
 
     if($dse_ldap_enabled) {
         #Validate the LDAP parameters when $dse_ldap_enabled is true
@@ -277,16 +296,6 @@ class cassandra(
         validate_string($dse_audit_excluded_keyspaces) 
     }
 
-    validate_bool($opscenter_ssl_enabled)
-    if($opscenter_ssl_enabled) {
-        if(!is_integer($opscenter_ssl_port)) {
-            fail('opscenter_ssl_port must be a port number between 1 and 65535')
-        }
-    }
-
-    if(!is_integer($opscenter_port)) {
-        fail('opscenter_port must be a port number between 1 and 65535')
-    }
 
     if(!is_integer($jmx_port)) {
         fail('jmx_port must be a port number between 1 and 65535')
@@ -296,10 +305,20 @@ class cassandra(
         fail('listen_address must be an IP address')
     }
 
+    validate_bool($opscenter_ssl_enabled)
+    if($opscenter_ssl_enabled) {
+        if(!is_integer($opscenter_ssl_port)) {
+            fail('opscenter_ssl_port must be a port number between 1 and 65535')
+        }
+    }
+    if(!is_integer($opscenter_port)) {
+        fail('opscenter_port must be a port number between 1 and 65535')
+    }
     if(!is_ip_address($opscenter_interface)) {
         fail('opscenter_interface must be an IP address')
     }
-
+    validate_re($opscenter_service_enable, '^(true|false)$')
+    validate_re($opscenter_service_ensure, '^(running|stopped)$')
     validate_re($opscenter_logging_level, '^(TRACE|DEBUG|INFO|WARN|ERROR)$')
     validate_re($opscenter_authentication_enabled, '^(True|False)$')
     validate_re($opscenter_agents_use_ssl, '^(True|False)$')
