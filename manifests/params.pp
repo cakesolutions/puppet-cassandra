@@ -710,11 +710,11 @@ class cassandra::params {
         undef   => '/etc/dse/cassandra/cassandra.yaml',
         default => $::cassandra_datastax_agent_cassandra_conf,
     }
-    $datastax_agent_use_ssl = $::cassandra_datastax_agent_use_ssl {
+    $datastax_agent_use_ssl = $::cassandra_datastax_agent_use_ssl ? {
         undef   => '0',
         default => $::cassandra_datastax_agent_use_ssl,
     }
-    $datastax_agent_ssl_keystore = $::cassandra_datastax_agent_ssl_keystore? {
+    $datastax_agent_ssl_keystore = $::cassandra_datastax_agent_ssl_keystore ? {
         undef   => '',
         default => $::cassandra_datastax_agent_ssl_keystore,
     }
