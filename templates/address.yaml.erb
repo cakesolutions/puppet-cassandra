@@ -5,9 +5,7 @@ use_ssl: <%= @datastax_agent_use_ssl %>
 
 ssl_keystore: <%= @datastax_agent_ssl_keystore %>
 ssl_keystore_password: <%= @datastax_agent_ssl_keystore_password %>
-thrift_ssl_truststore: <%= @datastax_agent_thrift_ssl_truststore %>
-thrift_ssl_truststore_password: <%= @datastax_agent_thrift_ssl_truststore_password %>
 
-ssl_ca_certs: <%= @datastax_agent_ssl_ca_certs %> /var/lib/datastax-agent/ssl/cacert.pem
-ssl_client_pem: <%= @datastax_agent_ssl_client_pem %> /var/lib/datastax-agent/ssl/opscenter.pem
-ssl_client_key: <%= @datastax_agent_ssl_client_key %> /var/lib/datastax-agent/ssl/opscenter.key
+ssl_ca_certs: <%= @datastax_agent_ssl_ca_certs %>
+ssl_client_pem: <%= @datastax_agent_ssl_client_pem %>
+ssl_client_key: <%= @datastax_agent_ssl_client_key %>

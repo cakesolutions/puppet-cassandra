@@ -4,6 +4,8 @@ password = <%= @jmx_password %>
 port = <%= @jmx_port %>
 
 [agents]
+ssl_keystore = <%= @agents_ssl_keystore %>
+ssl_keystore_password = <%= @agents_ssl_keystore_password %>
 
 [cassandra]
 seed_hosts = <%=  @cassandra_seed_hosts %>

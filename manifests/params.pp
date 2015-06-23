@@ -622,6 +622,18 @@ class cassandra::params {
         undef   => 'True',
         default => $::cassandra_opscenter_authentication_enabled,
     }
+    $opscenter_agents_use_ssl = $::cassandra_opscenter_agents_use_ssl ? {
+        undef   => 'False',
+        default => $::cassandra_opscenter_agents_use_ssl,
+    }
+    $agents_ssl_keystore = $::cassandra_agents_ssl_keystore ? {
+        undef   => '',
+        default => $::cassandra_agents_ssl_keystore,
+    }
+    $agents_ssl_keystore_password = $::cassandra_agents_ssl_keystore_password ? {
+        undef   => '',
+        default => $::cassandra_agents_ssl_keystore_password,
+    }
     $cassandra_username = $::cassandra_cassandra_username ? {
         undef   => '',
         default => $::cassandra_cassandra_username,
@@ -629,14 +641,6 @@ class cassandra::params {
     $cassandra_password = $::cassandra_cassandra_password ? {
         undef   => '',
         default => $::cassandra_cassandra_password,
-    }
-    $storage_cassandra_username = $::cassandra_storage_cassandra_username ? {
-        undef   => '',
-        default => $::cassandra_storage_cassandra_username,
-    }
-    $storage_cassandra_password = $::cassandra_storage_cassandra_password ? {
-        undef   => '',
-        default => $::cassandra_storage_cassandra_password,
     }
     $cassandra_seed_hosts = $::cassandra_cassandra_seed_hosts ? {
         undef   => '',
@@ -646,12 +650,88 @@ class cassandra::params {
         undef   => '9160',
         default => $::cassandra_cassandra_api_port,
     }
-    $datastax_agent_additional_jvm_opts = $::cassandra_datastax_agent_additional_jvm_opts ? {
+    $cassandra_ssl_ca_certs = $::cassandra_cassandra_ssl_ca_certs? {
         undef   => '',
+        default => $::cassandra_cassandra_ssl_ca_certs,
+    }
+    $cassandra_ssl_client_key = $::cassandra_cassandra_ssl_client_key ? {
+        undef   => '',
+        default => $::cassandra_cassandra_ssl_client_key,
+    }
+    $cassandra_ssl_client_pem = $::cassandra_cassandra_ssl_client_pem ? {
+        undef   => '',
+        default => $::cassandra_cassandra_ssl_client_pem,
+    }
+    $storage_cassandra_username = $::cassandra_storage_cassandra_username ? {
+        undef   => '',
+        default => $::cassandra_storage_cassandra_username,
+    }
+    $storage_cassandra_password = $::cassandra_storage_cassandra_password ? {
+        undef   => '',
+        default => $::cassandra_storage_cassandra_password,
+    }
+    $storage_cassandra_seed_hosts = $::cassandra_storage_cassandra_seed_hosts ? {
+        undef   => '',
+        default => $::cassandra_storage_cassandra_seed_hosts,
+    }
+    $storage_cassandra_ssl_ca_certs = $::cassandra_storage_cassandra_ssl_ca_certs? {
+        undef   => '',
+        default => $::cassandra_storage_cassandra_ssl_ca_certs,
+    }
+    $storage_cassandra_ssl_client_key = $::cassandra_storage_cassandra_ssl_client_key ? {
+        undef   => '',
+        default => $::cassandra_storage_cassandra_ssl_client_key,
+    }
+    $storage_cassandra_ssl_client_pem = $::cassandra_storage_cassandra_ssl_client_pem ? {
+        undef   => '',
+        default => $::cassandra_storage_cassandra_ssl_client_pem,
+    }
+    $agent_config_ssl_ca_certs = $::cassandra_agent_config_ssl_ca_certs? {
+        undef   => '',
+        default => $::cassandra_agent_config_ssl_ca_certs,
+    }
+    $agent_config_ssl_client_key = $::cassandra_agent_config_ssl_client_key ? {
+        undef   => '',
+        default => $::cassandra_agent_config_ssl_client_key,
+    }
+    $agent_config_ssl_client_pem = $::cassandra_agent_config_ssl_client_pem ? {
+        undef   => '',
+        default => $::cassandra_agent_config_ssl_client_pem,
+    }
+    $datastax_agent_additional_jvm_opts = $::cassandra_datastax_agent_additional_jvm_opts ? {
+        undef   => [],
         default => $::cassandra_datastax_agent_additional_jvm_opts,
     }
     $datastax_agent_stomp_interface = $::cassandra_datastax_agent_stomp_interface ? {
         undef   => '',
         default => $::cassandra_datastax_agent_stomp_interface,
+    }
+    $datastax_agent_cassandra_conf = $::cassandra_datastax_agent_cassandra_conf ? {
+        undef   => '/etc/dse/cassandra/cassandra.yaml',
+        default => $::cassandra_datastax_agent_cassandra_conf,
+    }
+    $datastax_agent_use_ssl = $::cassandra_datastax_agent_use_ssl {
+        undef   => '0',
+        default => $::cassandra_datastax_agent_use_ssl,
+    }
+    $datastax_agent_ssl_keystore = $::cassandra_datastax_agent_ssl_keystore? {
+        undef   => '',
+        default => $::cassandra_datastax_agent_ssl_keystore,
+    }
+    $datastax_agent_ssl_keystore_password = $::cassandra_datastax_agent_ssl_keystore_password ? {
+        undef   => '',
+        default => $::cassandra_datastax_agent_ssl_keystore_password,
+    }
+    $datastax_agent_ssl_ca_certs = $::cassandra_datastax_agent_ssl_ca_certs ? {
+        undef   => '',
+        default => $::cassandra_datastax_agent_ssl_ca_certs,
+    }
+    $datastax_agent_ssl_client_key = $::cassandra_datastax_agent_ssl_client_key ? {
+        undef   => '',
+        default => $::cassandra_datastax_agent_ssl_client_key,
+    }
+    $datastax_agent_ssl_client_pem = $::cassandra_datastax_agent_ssl_client_pem ? {
+        undef   => '',
+        default => $::cassandra_datastax_agent_ssl_client_pem,
     }
 }
