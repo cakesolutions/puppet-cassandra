@@ -234,7 +234,7 @@ class cassandra(
         fail('datastax_agent_stomp_interface must be an IP address')
     }
     validate_string($datastax_agent_cassandra_conf)
-    validate_re($datastax_agent_use_ssl, '^(0|1)$')
+    validate_re($datastax_agent_use_ssl, '^[0-1]$')
     validate_string($datastax_agent_ssl_keystore)
     validate_string($datastax_agent_ssl_keystore_password)
     validate_string($datastax_agent_ssl_ca_certs)
