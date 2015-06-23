@@ -1,2 +1,11 @@
 
-stomp_interface: <%= @datastax_agent_address_stomp_interface %>
+stomp_interface: <%= @datastax_agent_stomp_interface %>
+cassandra_conf: <%= @datastax_agent_cassandra_conf %>
+use_ssl: <%= @datastax_agent_use_ssl %>
+
+ssl_keystore: <%= @datastax_agent_ssl_keystore %>
+ssl_keystore_password: <%= @datastax_agent_ssl_keystore_password %>
+
+ssl_ca_certs: <%= @datastax_agent_ssl_ca_certs %>
+ssl_client_pem: <%= @datastax_agent_ssl_client_pem %>
+ssl_client_key: <%= @datastax_agent_ssl_client_key %>

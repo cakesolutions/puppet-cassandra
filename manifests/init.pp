@@ -119,14 +119,34 @@ class cassandra(
     $opscenter_ssl_port                                   = $cassandra::params::opscenter_ssl_port,
     $opscenter_logging_level                              = $cassandra::params::opscenter_logging_level,
     $opscenter_authentication_enabled                     = $cassandra::params::opscenter_authentication_enabled,
+    $opscenter_agents_use_ssl                             = $cassandra::params::opscenter_agents_use_ssl,
+    $agents_ssl_keystore                                  = $cassandra::params::agents_ssl_keystore,
+    $agents_ssl_keystore_password                         = $cassandra::params::agents_ssl_keystore_password,
     $cassandra_username                                   = $cassandra::params::cassandra_username,
     $cassandra_password                                   = $cassandra::params::cassandra_password,
-    $storage_cassandra_username                           = $cassandra::params::storage_cassandra_username,
-    $storage_cassandra_password                           = $cassandra::params::storage_cassandra_password,
     $cassandra_seed_hosts                                 = $cassandra::params::cassandra_seed_hosts,
     $cassandra_api_port                                   = $cassandra::params::cassandra_api_port,
-    $datastax_agent_additional_jvm_opts                   = $datastax_agent_additional_jvm_opts,
-    $datastax_agent_address_stomp_interface               = $datastax_agent_address_stomp_interface,
+    $cassandra_ssl_ca_certs                               = $cassandra::params::cassandra_ssl_ca_certs,
+    $cassandra_ssl_client_key                             = $cassandra::params::cassandra_ssl_client_key,
+    $cassandra_ssl_client_pem                             = $cassandra::params::cassandra_ssl_client_pem,
+    $storage_cassandra_username                           = $cassandra::params::storage_cassandra_username,
+    $storage_cassandra_password                           = $cassandra::params::storage_cassandra_password,
+    $storage_cassandra_seed_hosts                         = $cassandra::params::storage_cassandra_seed_hosts,
+    $storage_cassandra_ssl_ca_certs                       = $cassandra::params::storage_cassandra_ssl_ca_certs,
+    $storage_cassandra_ssl_client_key                     = $cassandra::params::storage_cassandra_ssl_client_key,
+    $storage_cassandra_ssl_client_pem                     = $cassandra::params::storage_cassandra_ssl_client_pem,
+    $agent_config_ssl_ca_certs                            = $cassandra::params::agent_config_ssl_ca_certs,
+    $agent_config_ssl_client_key                          = $cassandra::params::agent_config_ssl_client_key,
+    $agent_config_ssl_client_pem                          = $cassandra::params::agent_config_ssl_client_pem,
+    $datastax_agent_additional_jvm_opts                   = $cassandra::params::datastax_agent_additional_jvm_opts,
+    $datastax_agent_stomp_interface                       = $cassandra::params::datastax_agent_stomp_interface,
+    $datastax_agent_cassandra_conf                        = $cassandra::params::datastax_agent_cassandra_conf,
+    $datastax_agent_use_ssl                               = $cassandra::params::datastax_agent_use_ssl,
+    $datastax_agent_ssl_keystore                          = $cassandra::params::datastax_agent_ssl_keystore,
+    $datastax_agent_ssl_keystore_password                 = $cassandra::params::datastax_agent_ssl_keystore_password,
+    $datastax_agent_ssl_ca_certs                          = $cassandra::params::datastax_agent_ssl_ca_certs,
+    $datastax_agent_ssl_client_key                        = $cassandra::params::datastax_agent_ssl_client_key,
+    $datastax_agent_ssl_client_pem                        = $cassandra::params::datastax_agent_ssl_client_pem
 ) inherits cassandra::params {
     # Validate input parameters
     validate_bool($include_repo)
@@ -155,8 +175,6 @@ class cassandra(
     validate_re("${thread_stack_size}", '^[0-9]+$')
     validate_re($service_enable, '^(true|false)$')
     validate_re($service_ensure, '^(running|stopped)$')
-    validate_re($opscenter_service_enable, '^(true|false)$')
-    validate_re($opscenter_service_ensure, '^(running|stopped)$')
 
     validate_array($additional_jvm_opts)
     validate_array($seeds)
@@ -190,17 +208,41 @@ class cassandra(
     validate_string($jmx_password)
     validate_string($cassandra_username)
     validate_string($cassandra_password)
-    validate_string($storage_cassandra_username)
-    validate_string($storage_cassandra_password)
+
+
     validate_string($cassandra_seed_hosts)
     if(!is_integer($cassandra_api_port)) {
         fail('cassandra_api_port must be a port number between 1 and 65535')
     }
+    validate_string($cassandra_ssl_ca_certs)
+    validate_string($cassandra_ssl_client_key)
+    validate_string($cassandra_ssl_client_pem)
+
+    validate_string($storage_cassandra_username)
+    validate_string($storage_cassandra_password)
+    validate_string($storage_cassandra_seed_hosts)
+    validate_string($storage_cassandra_ssl_ca_certs)
+    validate_string($storage_cassandra_ssl_client_key)
+    validate_string($storage_cassandra_ssl_client_pem)
+
+    validate_string($agent_config_ssl_ca_certs)
+    validate_string($agent_config_ssl_client_key)
+    validate_string($agent_config_ssl_client_pem)
 
     validate_array($datastax_agent_additional_jvm_opts)
-    if(!is_ip_address($datastax_agent_address_stomp_interface)) {
-        fail('datastax_agent_address_stomp_interface must be an IP address')
+    if(!is_ip_address($datastax_agent_stomp_interface)) {
+        fail('datastax_agent_stomp_interface must be an IP address')
     }
+    validate_string($datastax_agent_cassandra_conf)
+    if(!is_integer($datastax_agent_use_ssl)) {
+        fail('datastax_agent_use_ssl must be a nuber between 0 and 1')
+    }
+    validate_re("$datastax_agent_use_ssl", '^[0-1]$')
+    validate_string($datastax_agent_ssl_keystore)
+    validate_string($datastax_agent_ssl_keystore_password)
+    validate_string($datastax_agent_ssl_ca_certs)
+    validate_string($datastax_agent_ssl_client_key)
+    validate_string($datastax_agent_ssl_client_pem)
 
     if($dse_ldap_enabled) {
         #Validate the LDAP parameters when $dse_ldap_enabled is true
@@ -257,16 +299,6 @@ class cassandra(
         validate_string($dse_audit_excluded_keyspaces) 
     }
 
-    validate_bool($opscenter_ssl_enabled)
-    if($opscenter_ssl_enabled) {
-        if(!is_integer($opscenter_ssl_port)) {
-            fail('opscenter_ssl_port must be a port number between 1 and 65535')
-        }
-    }
-
-    if(!is_integer($opscenter_port)) {
-        fail('opscenter_port must be a port number between 1 and 65535')
-    }
 
     if(!is_integer($jmx_port)) {
         fail('jmx_port must be a port number between 1 and 65535')
@@ -276,12 +308,23 @@ class cassandra(
         fail('listen_address must be an IP address')
     }
 
+    validate_bool($opscenter_ssl_enabled)
+    if($opscenter_ssl_enabled) {
+        if(!is_integer($opscenter_ssl_port)) {
+            fail('opscenter_ssl_port must be a port number between 1 and 65535')
+        }
+    }
+    if(!is_integer($opscenter_port)) {
+        fail('opscenter_port must be a port number between 1 and 65535')
+    }
     if(!is_ip_address($opscenter_interface)) {
         fail('opscenter_interface must be an IP address')
     }
-
+    validate_re($opscenter_service_enable, '^(true|false)$')
+    validate_re($opscenter_service_ensure, '^(running|stopped)$')
     validate_re($opscenter_logging_level, '^(TRACE|DEBUG|INFO|WARN|ERROR)$')
     validate_re($opscenter_authentication_enabled, '^(True|False)$')
+    validate_re($opscenter_agents_use_ssl, '^(True|False)$')
 
     if(!empty($broadcast_address) and !is_ip_address($broadcast_address)) {
         fail('broadcast_address must be an IP address')
@@ -459,16 +502,35 @@ class cassandra(
         opscenter_ssl_port                                  => $opscenter_ssl_port,
         opscenter_logging_level                             => $opscenter_logging_level,
         opscenter_authentication_enabled                    => $opscenter_authentication_enabled,
+        opscenter_agents_use_ssl                            => $opscenter_agents_use_ssl,
+        agents_ssl_keystore                                 => $agents_ssl_keystore,
+        agents_ssl_keystore_password                        => $agents_ssl_keystore_password,
         cassandra_username                                  => $cassandra_username,
         cassandra_password                                  => $cassandra_password,
-        storage_cassandra_username                          => $storage_cassandra_username,
-        storage_cassandra_password                          => $storage_cassandra_password,
         cassandra_seed_hosts                                => $cassandra_seed_hosts,
         cassandra_api_port                                  => $cassandra_api_port,
+        cassandra_ssl_ca_certs                              => $cassandra_ssl_ca_certs,
+        cassandra_ssl_client_key                            => $cassandra_ssl_client_key,
+        cassandra_ssl_client_pem                            => $cassandra_ssl_client_pem,
+        storage_cassandra_username                          => $storage_cassandra_username,
+        storage_cassandra_password                          => $storage_cassandra_password,
+        storage_cassandra_seed_hosts                        => $storage_cassandra_seed_hosts,
+        storage_cassandra_ssl_ca_certs                      => $storage_cassandra_ssl_ca_certs,
+        storage_cassandra_ssl_client_key                    => $storage_cassandra_ssl_client_key,
+        storage_cassandra_ssl_client_pem                    => $storage_cassandra_ssl_client_pem,
+        agent_config_ssl_ca_certs                           => $agent_config_ssl_ca_certs,
+        agent_config_ssl_client_key                         => $agent_config_ssl_client_key,
+        agent_config_ssl_client_pem                         => $agent_config_ssl_client_pem,
+        datastax_agent_stomp_interface                      => $datastax_agent_stomp_interface,
         datastax_agent_additional_jvm_opts                  => $datastax_agent_additional_jvm_opts,
-        datastax_agent_address_stomp_interface              => $datastax_agent_address_stomp_interface,
+        datastax_agent_cassandra_conf                       => $datastax_agent_cassandra_conf,
+        datastax_agent_use_ssl                              => $datastax_agent_use_ssl,
+        datastax_agent_ssl_keystore                         => $datastax_agent_ssl_keystore,
+        datastax_agent_ssl_keystore_password                => $datastax_agent_ssl_keystore_password,
+        datastax_agent_ssl_ca_certs                         => $datastax_agent_ssl_ca_certs,
+        datastax_agent_ssl_client_key                       => $datastax_agent_ssl_client_key,
+        datastax_agent_ssl_client_pem                       => $datastax_agent_ssl_client_pem
     }
-
 
     class { 'cassandra::service':
         service_enable           => $service_enable,
