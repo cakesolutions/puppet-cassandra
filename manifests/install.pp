@@ -2,8 +2,8 @@ class cassandra::install( $java_package, $using_opscenter ) {
 
     if !defined (Package['java']) {
       package { 'java':
-        ensure  => installed,
-        name    => "$java_package"
+        ensure => installed,
+        name   => $java_package
       }
     }
 

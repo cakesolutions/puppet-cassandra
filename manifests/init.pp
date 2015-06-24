@@ -167,12 +167,12 @@ class cassandra(
     validate_re($snapshot_before_compaction, '^(true|false)$')
     validate_re($auto_snapshot, '^(true|false)$')
     validate_re($multithreaded_compaction, '^(true|false)$')
-    validate_re("${concurrent_reads}", '^[0-9]+$')
-    validate_re("${concurrent_writes}", '^[0-9]+$')
-    validate_re("${num_tokens}", '^[0-9]+$')
+    validate_re($concurrent_reads, '^[0-9]+$')
+    validate_re($concurrent_writes, '^[0-9]+$')
+    validate_re($num_tokens, '^[0-9]+$')
     validate_re($internode_compression, '^(all|dc|none)$')
     validate_re($disk_failure_policy, '^(stop|best_effort|ignore)$')
-    validate_re("${thread_stack_size}", '^[0-9]+$')
+    validate_re($thread_stack_size, '^[0-9]+$')
     validate_re($service_enable, '^(true|false)$')
     validate_re($service_ensure, '^(running|stopped)$')
 
@@ -237,7 +237,7 @@ class cassandra(
     if(!is_integer($datastax_agent_use_ssl)) {
         fail('datastax_agent_use_ssl must be a nuber between 0 and 1')
     }
-    validate_re("$datastax_agent_use_ssl", '^[0-1]$')
+    validate_re($datastax_agent_use_ssl, '^[0-1]$')
     validate_string($datastax_agent_ssl_keystore)
     validate_string($datastax_agent_ssl_keystore_password)
     validate_string($datastax_agent_ssl_ca_certs)
@@ -296,7 +296,7 @@ class cassandra(
         validate_string($dse_audit_included_categories)
         validate_string($dse_audit_excluded_categories)
         validate_string($dse_audit_included_keyspaces)
-        validate_string($dse_audit_excluded_keyspaces) 
+        validate_string($dse_audit_excluded_keyspaces)
     }
 
 
