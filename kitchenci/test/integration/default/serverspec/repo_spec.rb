@@ -14,7 +14,7 @@ describe yumrepo('datastax') do
 end
 
 #TODO: add matches for the rest of repo file content
-describe file('/etc/yum.repo.d/datastax.repo') do
+describe file('/etc/yum.repos.d/datastax.repo') do
 	it { should be_file }
 	its(:content) { should match /baseurl=http:\/\/auto_cakesolutions.net:T4MAbMsNBvtlSKu@rpm.datastax.com\/enterprise/ }
 	its(:content) { should match /gpgcheck=0/ }	
