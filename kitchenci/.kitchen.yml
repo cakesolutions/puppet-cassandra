@@ -7,7 +7,8 @@ provisioner:
   puppet_version: {puppet_version}
   mainfests_path: manifests
   modules_path: modules
-  hira_data_path: hiradata
+  hiera_config_path: hiera.yaml
+  hiera_data_path: hieradata
 
 platforms:
   {platforms}
