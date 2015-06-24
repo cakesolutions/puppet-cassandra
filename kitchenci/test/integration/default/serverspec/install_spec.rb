@@ -14,7 +14,7 @@ describe package('java-1.7.0-openjdk') do
 end
 
 describe package('dse') do
-	it { should be_installed}.by('rpm').with_version('4.7.0-1') }
+	it { should be_installed.by('rpm').with_version('4.7.0-1') }
 end
 
 describe package('python26-cql') do
