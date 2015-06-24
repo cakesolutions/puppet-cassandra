@@ -22,7 +22,7 @@ describe file('/var/lib/cassandra/data') do
 	it { should be_grouped_into 'cassandra' }
 end
 
-describe file('/etc/cassandra/conf/cassandra-env.sh') do
+describe file('/etc/dse/cassandra/cassandra-env.sh') do
 	it { should be_file }
 	it { should be_mode 0644 }
 	it { should be_owned_by 'cassandra' }
@@ -30,7 +30,7 @@ describe file('/etc/cassandra/conf/cassandra-env.sh') do
 	its(:content) { should match /JVM_OPTS="$JVM_OPTS -Dorg.xerial.snappy.tempdir=\/var\/lib\/cassandra\/ -Dcom.sun.management.jmxremote.rmi.port=48888 -Djava.io.tmpdir=\/var\/lib\/cassandra\/ -Dconsistent.rangemovement=false JMX_PORT=7199"/}
 end
 
-describe file('/etc/cassandra/conf/cassandra.yaml') do
+describe file('/etc/dse/cassandra/cassandra.yaml') do
 	it { should be_file }
 	it { should be_mode 0644 }
 	it { should be_owned_by 'cassandra' }
