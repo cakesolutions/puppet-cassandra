@@ -66,7 +66,7 @@ describe file('/etc/dse/cassandra/cassandra.yaml') do
 	its(:content) { should match /incremental_backups: false/}
 	its(:content) { should match /snapshot_before_compaction: false/}
 	its(:content) { should match /auto_snapshot: true/}
-	its(:content) { should match /endpoint_snitch: Ec2Snitch/}
+	its(:content) { should match /endpoint_snitch: SimpleSnitch/}
 ### server_encryption_options:
 	its(:content) { should match /internode_encryption: none/}
 	its(:content) { should match /keystore: /}
