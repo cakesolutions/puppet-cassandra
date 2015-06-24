@@ -13,7 +13,7 @@ describe package('java-1.7.0-openjdk') do
 	it { should be_installed.by('rpm') }
 end
 
-describe package('dse') do
+describe package('dse-full') do
 	it { should be_installed.by('rpm').with_version('4.7.0-1') }
 end
 
