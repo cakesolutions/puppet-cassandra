@@ -8,7 +8,7 @@ cassandra_home_mode: 755
 cassandra::service_name: "dse"
 cassandra::package_name: "dse-full"
 cassandra::repo_baseurl: "http://auto_cakesolutions.net:T4MAbMsNBvtlSKu@rpm.datastax.com/enterprise"
-cassandra::seeds: [ "%{::seed_a_eni_ip}", "%{::seed_b_eni_ip}", "%{::seed_c_eni_ip}" ]
+cassandra::seeds: [ "127.0.0.1" ]
 cassandra::listen_address: "%{::ipaddress_eth0}"
 cassandra::broadcast_address: "%{hiera('cassandra::listen_address')}"
 cassandra::rpc_address: '0.0.0.0'
@@ -23,7 +23,7 @@ cassandra::service_ensure: "running"
 cassandra::opscenter_service_enable: "true"
 cassandra::opscenter_service_ensure: "running"
 cassandra::cassandra_seed_hosts: "%{::seed_a_eni_ip},%{::seed_b_eni_ip},%{::seed_c_eni_ip}"
-cassandra::datastax_agent_stomp_interface: "%{::opscenter_eni_ip}"
+cassandra::datastax_agent_stomp_interface: "%{::ipaddress}"
 cassandra::datastax_agent_additional_jvm_opts:
   - "-Dorg.xerial.snappy.tempdir=/var/lib/datastax-agent/"
   - "-Djava.io.tmpdir=/var/lib/datastax-agent/"
