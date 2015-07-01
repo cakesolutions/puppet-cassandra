@@ -1,6 +1,8 @@
 ---
 driver:
-  name: {driver}
+  name: vagrant
+  customzie:
+    memory: 4096
 
 provisioner:
   name: puppet_apply
@@ -18,9 +20,4 @@ suites:
     manifest: site.pp
     provisioner:
       custom_facts:
-        seed_a_eni_ip: 1.2.3.4
-        seed_b_eni_ip: 5.6.7.8
-        seed_c_eni_ip: 9.10.11.12
         processorcount: 2
-        ipaddress_eth0: 13.14.15.16
-        opscenter_eni_ip: 17.18.19.20
