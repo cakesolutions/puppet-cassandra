@@ -1,0 +1,24 @@
+---
+driver:
+  name: vagrant
+
+provisioner:
+  name: puppet_apply
+  puppet_version: {puppet_version}
+  mainfests_path: manifests
+  modules_path: modules
+  hiera_config_path: hiera.yaml
+  hiera_data_path: hieradata
+
+platforms:
+  {platforms}
+    driver:
+      customize:
+        memory: 4096
+
+suites:
+  - name: default
+    manifest: site.pp
+    provisioner:
+      custom_facts:
+        processorcount: 2

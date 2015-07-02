@@ -168,20 +168,20 @@ class cassandra::config(
           content => template("${module_name}/dse.yaml.erb"),
       }
  
-      file { "/etc/datastax-agent/datastax-agent-env.sh":
+      file { '/etc/datastax-agent/datastax-agent-env.sh':
           ensure  => file,
           content => template("${module_name}/datastax-agent-env.sh.erb"),
           notify  => Service['datastax-agent'],
       }
   
-      file { "/var/lib/datastax-agent/conf/address.yaml":
+      file { '/var/lib/datastax-agent/conf/address.yaml':
           ensure  => file,
           content => template("${module_name}/address.yaml.erb"),
           notify  => Service['datastax-agent'],
       }
   }
 
-    if(($dse_audit_logging_enabled) and ($dse_audit_logger=="Log4JAuditWriter")) {
+    if(($dse_audit_logging_enabled) and ($dse_audit_logger=='Log4JAuditWriter')) {
       file { "${dse_config_path}/cassandra/log4j-server.properties":
           ensure  => file,
           content => template("${module_name}/log4j-server.properties.erb"),
@@ -189,17 +189,17 @@ class cassandra::config(
     }
 
     if($using_opscenter) {
-      file { "/etc/opscenter/opscenterd.conf":
+      file { '/etc/opscenter/opscenterd.conf':
         ensure  => file,
         owner   => opscenter,
         group   => opscenter,
         content => template("${module_name}/opscenterd.conf.erb"),
       }
 
-      file { "/etc/opscenter/clusters":
+      file { '/etc/opscenter/clusters':
           ensure => directory,
-          owner   => opscenter,
-          group   => opscenter,
+          owner  => opscenter,
+          group  => opscenter,
      }
 
       file { "/etc/opscenter/clusters/${cluster_name}.conf":

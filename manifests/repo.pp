@@ -12,15 +12,15 @@ class cassandra::repo (
     case $::osfamily {
         'Debian': {
             class { 'cassandra::repo::debian':
-                repo_name    => $repo_name,
-                location     => $baseurl,
-                repos        => $repos,
-                release      => $release,
-                key          => $key_id,
-                key_source   => $gpgkey,
-                pin          => $pin,
-                before       => Anchor['cassandra::repo::end'],
-                require      => Anchor['cassandra::repo::begin'],
+                repo_name  => $repo_name,
+                location   => $baseurl,
+                repos      => $repos,
+                release    => $release,
+                key        => $key_id,
+                key_source => $gpgkey,
+                pin        => $pin,
+                before     => Anchor['cassandra::repo::end'],
+                require    => Anchor['cassandra::repo::begin'],
             }
         }
         'RedHat': {
