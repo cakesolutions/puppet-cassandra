@@ -1,8 +1,6 @@
 ---
 driver:
   name: vagrant
-  customzie:
-    memory: 4096
 
 provisioner:
   name: puppet_apply
@@ -14,6 +12,9 @@ provisioner:
 
 platforms:
   {platforms}
+    driver:
+      customize:
+        memory: 4096
 
 suites:
   - name: default
