@@ -1,5 +1,7 @@
 # Role specific modules
 
+forge "https://forgeapi.puppetlabs.com"
+
 mod "cakesolutions/cassandra",
   :git => "git@github.com:cakesolutions/puppet-cassandra.git"
 
