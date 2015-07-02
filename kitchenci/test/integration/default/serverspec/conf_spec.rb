@@ -49,17 +49,17 @@ describe file('/etc/dse/cassandra/cassandra.yaml') do
 	its(:content) { should match /commitlog_directory: \/var\/lib\/cassandra\/commitlog/}
 	its(:content) { should match /disk_failure_policy: stop/}
 	its(:content) { should match /saved_caches_directory: \/var\/lib\/cassandra\/saved_caches/}
-	its(:content) { should match /seeds: 1.2.3.4,5.6.7.8,9.10.11.12/} # %{::seed_a_eni_ip}, %{::seed_b_eni_ip}, %{::seed_c_eni_ip} ==> 1.2.3.4, 5.6.7.8, 9.10.11.12
+	its(:content) { should match /seeds: 10.0.2.15/} #::ipaddress_eth0
 	its(:content) { should match /concurrent_reads: 16/} # $::processorcount * 8  ==> 16
 	its(:content) { should match /concurrent_writes: 16/} # $::processorcount * 8 ==> 16
 	its(:content) { should match /storage_port: 7000/}
-	its(:content) { should match /listen_address: 13.14.15.16/} #::ipaddress_eth0  ==> 13.14.15.16
-	its(:content) { should match /broadcast_address: 13.14.15.16/} #::ipaddress_eth0 ==> 13.14.15.16
+	its(:content) { should match /listen_address: 10.0.2.15/} #::ipaddress_eth0
+	its(:content) { should match /broadcast_address: 10.0.2.15/} #::ipaddress_eth0
 	its(:content) { should match /start_native_transport: true/}
 	its(:content) { should match /native_transport_port: 9042/}
 	its(:content) { should match /start_rpc: true/}
 	its(:content) { should match /rpc_port: 9160/}
-	its(:content) { should match /broadcast_rpc_address: 13.14.15.16/} #::ipaddress_eth0 ==> 13.14.15.16
+	its(:content) { should match /broadcast_rpc_address: 10.0.2.15/} #::ipaddress_eth0
 	its(:content) { should match /rpc_server_type: hsha/}
 	its(:content) { should match /rpc_min_threads: 0/}
 	its(:content) { should match /rpc_max_threads: 2048/}
@@ -115,5 +115,5 @@ describe file('/var/lib/datastax-agent/conf/address.yaml') do
 	it { should be_mode 644 }
 	it { should be_owned_by 'cassandra' }
 	it { should be_grouped_into 'cassandra' }
-	its(:content) { should match /stomp_interface: 17.18.19.20/} #::opscenter_eni_ip ==> 17.18.19.20
+	its(:content) { should match /stomp_interface: 10.0.2.15/} #::ipaddress_eth0
 end
